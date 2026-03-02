@@ -201,10 +201,13 @@ if (check_changed) {
 
   cli::cli_alert_info("Rendering {type} dictionary for {institution}...")
 
+  # WINDOWS FIX: Add --no-clean flag to prevent Quarto from trying to delete
+  # .quarto directory at the end (causes "os error 32" on Windows due to locked files)
+  # We clean it up manually at the start of next render instead
   quarto::quarto_render(
     input = "04_export/data_dictionary.qmd",
     output_file = output_file,
-    quarto_args = c("--output-dir", output_dir),
+    quarto_args = c("--output-dir", output_dir, "--no-clean"),
     execute_dir = getwd(),
     execute_params = list(type = type)
   )
