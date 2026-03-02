@@ -100,3 +100,4 @@ makeCodebook(INS_Inschrijvingen_1CHO_VUdata,
              replace = TRUE,
              # output to be generated and saved
              render = TRUE)
+}
