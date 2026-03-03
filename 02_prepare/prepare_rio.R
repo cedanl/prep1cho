@@ -13,30 +13,41 @@
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Import all required files:
 
-croho <- read_file_proj("croho")
+rio <- read_file_proj("rio")
 
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ## 2. MODIFY ####
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-croho <- croho %>%
-  mutate(Datum_begin_opleiding = suppressWarnings(dmy(Datum_begin_opleiding)),
-         Datum_einde_opleiding = suppressWarnings(dmy(Datum_einde_opleiding)),
-         Datum_einde_instroom = suppressWarnings(dmy(Datum_einde_instroom)))
+rio <- rio %>%
+  mutate(Datum_begin_opleiding = suppressWarnings(as_date(ymd_hms(Datum_begin_opleiding))),
+         Datum_einde_opleiding = suppressWarnings(as_date(ymd_hms(Datum_einde_opleiding))),
+         Datum_einde_instroom = suppressWarnings(as_date(ymd_hms(Datum_einde_instroom)))) %>%
+
+  # Derive Code_stand_record from dates (not in RIO source, but needed for pipeline)
+  mutate(Code_stand_record = case_when(
+    # Future: start date is in the future
+    Datum_begin_opleiding > today() ~ "TOEKOMST",
+    # Historical: end date is in the past (either instroom or opleiding)
+    !is.na(Datum_einde_opleiding) & Datum_einde_opleiding < today() ~ "HISTORISCH",
+    !is.na(Datum_einde_instroom) & Datum_einde_instroom < today() ~ "HISTORISCH",
+    # Current: everything else
+    TRUE ~ "ACTUEEL"
+  ))
 
 # Create synthetic rows based on rows VU
 if (Sys.getenv("R_CONFIG_ACTIVE") %in% c("synthetic", "default", "")) {
 
-  synthetic_rows <- croho %>%
+  synthetic_rows <- rio %>%
     filter(OPL_Instellingscode == "21PL") %>%
     mutate(OPL_Instellingscode = "21XX")
 
-  croho <- croho %>%
+  rio <- rio %>%
     bind_rows(synthetic_rows)
 
 }
 
-croho <- croho %>%
+rio <- rio %>%
   # Get programmes from institution
   filter(OPL_Instellingscode == config::get("metadata_institution_BRIN")) %>%
   mutate(
@@ -51,10 +62,10 @@ croho <- croho %>%
 
 nMax_jaar <- config::get("year")
 
-# The CROHO file only contains rows per change. To create it per year, we select the last
+# The rio file only contains rows per change. To create it per year, we select the last
 # change per year and then fill in missing years with the data from the last
 # completed year
-croho_per_jaar <- croho %>%
+rio_per_jaar <- rio %>%
   mutate(
     OPL_Academisch_jaar = academic_year(Datum_begin_opleiding),
     OPL_Academisch_jaar_einde_opleiding = academic_year(Datum_einde_opleiding),
@@ -92,8 +103,8 @@ croho_per_jaar <- croho %>%
 ## WRITE-AND-CLEAR ####
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-write_file_proj(croho)
+write_file_proj(rio)
 
-write_file_proj(croho_per_jaar)
+write_file_proj(rio_per_jaar)
 
 clear_script_objects()
