@@ -54,3 +54,6 @@ rsconnect/
 *.rds
 !*synthetic.rds
 metadata/data_dictionary_*/stats_*.csv
+
+# Claude
+.claude

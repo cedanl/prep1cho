@@ -12,19 +12,13 @@
 ## 1. READ ####
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-croho_naming <- read_documentation("Documentatie_CROHO.csv")
+rio_naming <- read_documentation("Documentatie_RIO.csv")
 
-## The 00_download_croho should deliver this
-file_path <- "data/00_raw/croho_actueel.txt"
+## The 00_download_rio should deliver this
+file_path <- "data/00_raw/rio_actueel.csv"
 
-croho_import_definitions <- read_import_definitions("CROHO.csv")
-
-## Open croho
-croho <- LaF::laf_open_fwf(file_path,
-                           column_widths = croho_import_definitions$widths,
-                           column_names = croho_import_definitions$names_croho,
-                           column_types = croho_import_definitions$types
-                          )[,]
+## Open RIO CSV
+rio <- read.csv(file_path, na.strings = c("", "NA"))
 
 
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -32,9 +26,7 @@ croho <- LaF::laf_open_fwf(file_path,
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Fix before assert
-colnames(croho) <- croho_import_definitions$names_croho
-
-croho <- croho %>%
+rio <- rio %>%
   mutate_all(~replace(., . == "", NA))
 
 
@@ -42,8 +34,8 @@ croho <- croho %>%
 ## 3. MODIFY ####
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-croho <- croho %>%
-  wrapper_translate_colnames_documentation(croho_naming) %>%
+rio <- rio %>%
+  wrapper_translate_colnames_documentation(rio_naming) %>%
   distinct()
 
 
@@ -51,7 +43,6 @@ croho <- croho %>%
 ## WRITE & CLEAR ####
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-write_file_proj(croho, "croho")
+write_file_proj(rio, "rio")
 
 clear_script_objects()
-
