@@ -34,8 +34,8 @@ rio_per_jaar_enrollments <- rio_per_jaar %>%
     OPL_Nominale_studieduur,
     OPL_Academisch_jaar,
     OPL_Bekostiging,
-    OPL_Bekostigingsduur,
-    Relatie_soort
+    OPL_Bekostigingsduur#,
+    #Relatie_soort
   ) %>%
   filter(OPL_Academisch_jaar >= config::get("first_year")) %>%
   select(-OPL_Academisch_jaar) %>% # Remove this line if you want to join on academic year
@@ -45,7 +45,7 @@ rio_per_jaar_enrollments <- rio_per_jaar %>%
   distinct()
 
 enrollments <- enrollments_start %>%
-  left_join(croho_per_jaar_enrollments,
+  left_join(rio_per_jaar_enrollments,
             by = c("OPL_Code_in_jaar" #, # remove this if you want to join
                    # on academic year as well
                    # "INS_Inschrijvingsjaar" = "OPL_Academisch_jaar"
