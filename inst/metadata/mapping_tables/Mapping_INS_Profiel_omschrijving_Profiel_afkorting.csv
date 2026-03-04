@@ -1,0 +1,17 @@
+from;to
+natuur & techniek;NT
+economie & maatschappij;EM
+natuur & gezondheid;NG
+cultuur & maatschappij;CM
+economie/maatschappij & cultuur/maatschappij;EM & CM
+natuur/techniek & natuur/gezondheid;NT & NG
+natuur/gezondheid & cultuur/maatschappij;NG & CM
+natuur/gezondheid & economie/maatschappij;NG & EM
+natuur/techniek & economie/maatschappij;NT & EM
+natuur/techniek & cultuur/maatschappij;NT & CM
+economie & maatschappij & cultuur & maatschappij;EM & CM
+natuur & techniek & natuur & gezondheid;NT & NG
+natuur & gezondheid & cultuur & maatschappij;NG & CM
+natuur & gezondheid & economie & maatschappij;NG & EM
+natuur & techniek & economie & maatschappij;NT & EM
+natuur & techniek & cultuur & maatschappij;NT & CM

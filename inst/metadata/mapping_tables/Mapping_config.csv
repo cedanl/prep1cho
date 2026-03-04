@@ -1,0 +1,9 @@
+from1;from2;from3;to
+TRUE;TRUE;TRUE;
+TRUE;TRUE;FALSE;_fix_and_only_own_students
+TRUE;FALSE;TRUE;_fix_and_funded
+TRUE;FALSE;FALSE;_only_basic_fix
+FALSE;TRUE;TRUE;_only_basic_filters
+FALSE;TRUE;FALSE;_only_own_students
+FALSE;FALSE;TRUE;_only_funded_programmes
+FALSE;FALSE;FALSE;_no_manipulation

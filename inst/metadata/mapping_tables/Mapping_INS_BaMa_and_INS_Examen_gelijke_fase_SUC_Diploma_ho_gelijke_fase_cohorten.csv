@@ -1,0 +1,27 @@
+from1;from2;to
+B;a;Eigen instelling - Bachelordiploma - EOI-opleiding
+B;b;Eigen instelling - Bachelordiploma - EOI-opleiding
+B;c;Eigen Instelling - Bachelordiploma - Andere opleiding - Zelfde HOOP-gebied
+B;d;Eigen Instelling - Bachelordiploma - Andere opleiding - Zelfde HOOP-gebied
+B;e;Eigen Instelling - Bachelordiploma - Andere opleiding - Ander HOOP-gebied
+B;f;Eigen Instelling - Bachelordiploma - Andere opleiding - Ander HOOP-gebied
+B;g;Universiteit NL - Bachelordiploma - Zelfde HOOP-gebied
+B;h;Universiteit NL - Bachelordiploma - Zelfde HOOP-gebied
+B;i;Universiteit NL - Bachelordiploma - Ander HOOP-gebied
+B;j;Universiteit NL - Bachelordiploma - Ander HOOP-gebied
+B;k;HBO - Diploma
+B;l;Eigen instelling - Masterdiploma - Geen bachelordiploma
+B;p;Universiteit NL - Masterdiploma - Geen bachelordiploma
+B;x;Geen diploma HO NL
+M;a;Eigen Instelling - Masterdiploma - EOI-opleiding
+M;b;Eigen Instelling - Masterdiploma - EOI-opleiding
+M;c;Eigen Instelling - Masterdiploma - Andere opleiding - Zelfde HOOP-gebied
+M;d;Eigen Instelling - Masterdiploma - Andere opleiding - Zelfde HOOP-gebied
+M;e;Eigen Instelling - Masterdiploma - Andere opleiding - Ander HOOP-gebied
+M;f;Eigen Instelling - Masterdiploma - Andere opleiding - Ander HOOP-gebied
+M;g;Universiteit NL - Masterdiploma - Zelfde HOOP-gebied
+M;h;Universiteit NL - Masterdiploma - Zelfde HOOP-gebied
+M;i;Universiteit NL - Masterdiploma - Ander HOOP-gebied
+M;j;Universiteit NL - Masterdiploma - Ander HOOP-gebied
+M;k;HBO - Diploma
+M;x;Geen diploma HO NL
