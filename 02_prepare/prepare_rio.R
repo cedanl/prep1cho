@@ -55,7 +55,14 @@ rio <- rio %>%
     OPL_Code_in_jaar = as.integer(OPL_Code_in_jaar),
     OPL_Nominale_studielast_EC_aantal = as.integer(OPL_Nominale_studielast_EC_aantal),
     # Create variable for study load per year
-    OPL_Nominale_studieduur = as.integer(OPL_Nominale_studielast_EC_aantal / 60)
+    OPL_Nominale_studieduur = as.integer(OPL_Nominale_studielast_EC_aantal / 60),
+    # Add level prefix to program name (B/M/AD) to match original CROHO format
+    OPL_Opleidingsnaam_CROHO = case_when(
+      Graad %in% c("BACHELOR", "Bachelor") ~ paste0("B ", OPL_Opleidingsnaam_CROHO),
+      Graad %in% c("MASTER", "Master") ~ paste0("M ", OPL_Opleidingsnaam_CROHO),
+      Graad %in% c("ASSOCIATE_DEGREE", "Associate Degree") ~ paste0("AD ", OPL_Opleidingsnaam_CROHO),
+      TRUE ~ OPL_Opleidingsnaam_CROHO
+    )
   ) %>%
   mapping_translate("OPL_Code_in_jaar", "OPL_Code_historisch")
 
