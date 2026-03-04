@@ -1,5 +1,0 @@
-script_dir;type;data_dir;base_data_dir;add_branch;extension;message;notes
-01_audit;;00_raw;data;FALSE;csv;Be aware! In this directory very diverse, raw, data is loaded, so this function might be not be appropriate.;
-02_prepare;;01_audited;data;FALSE;rds;;
-03_combine;;02_prepared;data;FALSE;rds;;
-04_export;;03_combined;data;FALSE;rds;;
