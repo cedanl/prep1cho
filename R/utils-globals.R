@@ -28,6 +28,18 @@ utils::globalVariables(c(
   "INS_Verblijfsjaren_hoger_onderwijs_vanaf_0_cat",
   "INS_Verblijfsjaar_type_onderwijs_binnen_HO",
   "INS_Diplomajaar", "INS_Opleidingsfase_actueel_naam",
+  "INS_Vooropleiding_voor_HO_code", "INS_Vooropleiding_voor_HO_profiel",
+  "INS_Vooropleiding_voor_HO_profiel_standaard",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_NT",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_NG",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_EM",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_CM",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_combinatieprofiel",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_afk",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_afk",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_zonder_combinatie",
+  "INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_zonder_combinatie",
 
   # Calculated variables
   "INS_Studiejaar", "INS_Tussenjaren_binnen_opleiding", "INS_Inschrijvingsjaar_is_EOI",

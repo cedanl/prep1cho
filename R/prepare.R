@@ -176,6 +176,8 @@ prepare_enrollments_mapping <- function(enrollments) {
   map_leeftijd <- read_mapping("Mapping_DEM_Leeftijd_cat.csv")
   map_inschrijving <- read_mapping("Mapping_INS_Soort_inschrijving_1CHO_code_INS_Soort_inschrijving_1CHO_cat.csv")
   map_verblijfsjaren <- read_mapping("Mapping_INS_Verblijfsjaren_wetenschappelijk_onderwijs_cat.csv")
+  map_vooropleiding_profiel <- read_mapping("Mapping_INS_Vooropleiding_code_INS_Vooropleiding_naam.csv")
+  map_profiel_afk <- read_mapping("Mapping_INS_Profiel_omschrijving_Profiel_afkorting.csv")
 
   # Apply mappings
   enrollments_mapped <- enrollments |>
@@ -210,7 +212,9 @@ prepare_enrollments_mapping <- function(enrollments) {
     vusa::mapping_category("INS_Verblijfsjaren_wetenschappelijk_onderwijs", "INS_Verblijfsjaren_wetenschappelijk_onderwijs_vanaf_0_cat",
                           mapping_table_input = map_verblijfsjaren) |>
     vusa::mapping_category("INS_Verblijfsjaren_hoger_onderwijs", "INS_Verblijfsjaren_hoger_onderwijs_vanaf_0_cat",
-                          mapping_table_input = map_verblijfsjaren)
+                          mapping_table_input = map_verblijfsjaren) |>
+    vusa::mapping_translate("INS_Vooropleiding_voor_HO_code", "INS_Vooropleiding_voor_HO_profiel",
+                           mapping_table_input = map_vooropleiding_profiel)
 
   return(enrollments_mapped)
 }
@@ -384,6 +388,103 @@ prepare_enrollments_supplemental <- function(enrollments, year, institution_brin
     ) |>
     dplyr::ungroup() |>
     dplyr::select(-INS_Diploma_temp, -INS_Datum_tekening_diploma_temp)
+
+  # VWO/HAVO profile calculations
+  enrollments <- enrollments |>
+    dplyr::mutate(
+      # Clean and standardize profile names
+      INS_Vooropleiding_voor_HO_profiel_standaard =
+        stringr::str_replace_all(
+          INS_Vooropleiding_voor_HO_profiel,
+          c("VO " = "", "vwo profiel " = "", "havo profiel " = "",
+            "havo " = "", "algemeen" = "", "profiel " = "",
+            " en " = " & ", " \\+ " = " & ")
+        ),
+      # Keep only valid profiles (containing cultuur/economie/natuur)
+      INS_Vooropleiding_voor_HO_profiel_standaard = dplyr::if_else(
+        stringr::str_detect(
+          INS_Vooropleiding_voor_HO_profiel_standaard,
+          "cultuur|economie|natuur"
+        ),
+        INS_Vooropleiding_voor_HO_profiel_standaard,
+        NA_character_
+      ),
+      # Remove invalid profiles (mbo/vmbo/vbo)
+      INS_Vooropleiding_voor_HO_profiel_standaard = dplyr::if_else(
+        stringr::str_detect(INS_Vooropleiding_voor_HO_profiel_standaard, "mbo|vmbo|vbo"),
+        NA_character_,
+        INS_Vooropleiding_voor_HO_profiel_standaard
+      ),
+      # VWO profiles only
+      INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO =
+        dplyr::if_else(
+          stringr::str_detect(INS_Vooropleiding_voor_HO_profiel, "vwo"),
+          INS_Vooropleiding_voor_HO_profiel_standaard,
+          NA_character_
+        ),
+      # Individual profile indicators
+      INS_Vooropleiding_voor_HO_profiel_standaard_NT =
+        stringr::str_detect(INS_Vooropleiding_voor_HO_profiel, "techniek"),
+      INS_Vooropleiding_voor_HO_profiel_standaard_NG =
+        stringr::str_detect(INS_Vooropleiding_voor_HO_profiel, "gezondheid"),
+      INS_Vooropleiding_voor_HO_profiel_standaard_EM =
+        stringr::str_detect(INS_Vooropleiding_voor_HO_profiel, "maatschappij"),
+      INS_Vooropleiding_voor_HO_profiel_standaard_CM =
+        stringr::str_detect(INS_Vooropleiding_voor_HO_profiel, "cultuur"),
+      # Combination profile indicator
+      INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_combinatieprofiel =
+        stringr::str_detect(INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO, "/")
+    )
+
+  # Helper function to read mapping table
+  read_mapping <- function(filename) {
+    path <- system.file("metadata", "mapping_tables", filename, package = "choprep")
+    if (!file.exists(path)) {
+      rlang::abort(paste0("Mapping table not found: ", filename))
+    }
+    data.table::fread(path, encoding = "Latin-1")
+  }
+
+  # Read profile abbreviation mapping
+  map_profiel_afk <- read_mapping("Mapping_INS_Profiel_omschrijving_Profiel_afkorting.csv")
+
+  # Map profiles to abbreviations
+  enrollments <- enrollments |>
+    vusa::mapping_translate("INS_Vooropleiding_voor_HO_profiel_standaard",
+                           "INS_Vooropleiding_voor_HO_profiel_standaard_afk",
+                           mapping_table_input = map_profiel_afk) |>
+    vusa::mapping_translate("INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO",
+                           "INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_afk",
+                           mapping_table_input = map_profiel_afk)
+
+  # Define profile levels and ignored combinations
+  profile_levels <- c("NT", "NG", "NT & NG", "EM", "CM", "EM & CM")
+  profile_ignored <- c("NG & CM", "NG & EM", "NT & EM", "NT & CM")
+
+  # Create without-combination variants
+  enrollments <- enrollments |>
+    dplyr::mutate(
+      # Variable for VWO and HAVO
+      INS_Vooropleiding_voor_HO_profiel_standaard_zonder_combinatie = dplyr::if_else(
+        INS_Vooropleiding_voor_HO_profiel_standaard_afk %in% profile_ignored,
+        NA_character_,
+        INS_Vooropleiding_voor_HO_profiel_standaard_afk
+      ),
+      INS_Vooropleiding_voor_HO_profiel_standaard_zonder_combinatie = factor(
+        INS_Vooropleiding_voor_HO_profiel_standaard_zonder_combinatie,
+        levels = profile_levels
+      ),
+      # Variable only VWO
+      INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_zonder_combinatie = dplyr::if_else(
+        INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_afk %in% profile_ignored,
+        NA_character_,
+        INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_afk
+      ),
+      INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_zonder_combinatie = factor(
+        INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_zonder_combinatie,
+        levels = profile_levels
+      )
+    )
 
   return(enrollments)
 }
