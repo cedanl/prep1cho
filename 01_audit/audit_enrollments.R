@@ -13,7 +13,7 @@
 ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 enrollments <- read_delim(config::get("data_1cho_enrollments_file_path"),
-                          delim = ",",
+                          delim = ";",
                           col_types = cols(
                             .default = col_guess(),
                             `nationaliteit_3` = col_double(),
