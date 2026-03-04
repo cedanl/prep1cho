@@ -13,7 +13,7 @@ OPL_Code_in_jaar;opleiding_actueel_equivalent;TRUE;numeric;9201656;5000;80000;NA
 INS_Opleidingsnaam_2002;NA;FALSE;character;9201656;NA;NA;NA;FALSE;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
 INS_Indicatie_eerste_jaars_opleiding;IndicatieEerstejaarsOpleidingActueelEquivalent;TRUE;numeric;9201656;0,9;55;NA;FALSE;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
 INS_Indicatie_eerste_jaars_instelling;indicatie_eerstejaars_actuele_instelling;TRUE;numeric;9201656;0,9;55;NA;FALSE;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
-INS_Indicatie_eerste_jaars_opleiding_en_instelling;indicatie_eerstejaars_actuele_opl_instelling;TRUE;numeric;9201656;0,9;55;NA;FALSE;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
+INS_Indicatie_eerste_jaars_opleiding_en_instelling;indicatie_eerstejaars_actuele_opl._instelling;TRUE;numeric;9201656;0,9;55;NA;FALSE;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
 INS_Inschrijvingsjaar_EOI;eerste_jaar_aan_deze_opleiding_instelling;TRUE;numeric;9201656;1783,8;22209;NA;FALSE;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
 INS_Eerste_jaar_hoger_onderwijs;eerste_jaar_in_het_hoger_onderwijs;TRUE;numeric;9201656;1767,6;22209;NA;FALSE;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
 INS_Eerste_jaar_soort_hoger_onderwijs;eerste_jaar_aan_deze_soort_hoger_onderwijs;TRUE;numeric;9201656;1767,6;22209;NA;FALSE;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
