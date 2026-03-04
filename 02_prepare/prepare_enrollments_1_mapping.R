@@ -28,19 +28,19 @@ enrollments <- enrollments_start %>%
 
 # De bron bevat al verrijkte kolommen (_label, _naam, _cat suffixes) die normaal
 # via mapping tables worden aangemaakt. Hier renamen we ze naar standaard namen.
-enrollments <- enrollments %>%
-  rename(
-    DEM_Geslacht_naam = geslacht_label,
-    INS_Opleidingsvorm_naam = opleidingsvorm_label,
-    INS_Opleidingsfase_actueel_naam = opleidingsfase_actueel_label,
-    INS_Indicatie_actief_op_peildatum_omschrijving = indicatie_actief_op_peildatum_label,
-    DEM_Nationaliteit_1_naam = nationaliteit_1_omschrijving_nationaliteit,
-    DEM_Nationaliteit_2_naam = nationaliteit_2_omschrijving_nationaliteit,
-    DEM_Nationaliteit_3_naam = nationaliteit_3_omschrijving_nationaliteit,
-    INS_Indicatie_eerste_jaars_instelling_naam = indicatie_eerstejaars_actuele_instelling_label,
-    INS_Hoogste_vooropleiding_soort_1CHO = hoogste_vooropleiding_cat,
-    DEM_Leeftijd_peildatum_1_oktober_cat = leeftijd_per_peildatum_1_oktober_cat
-  )
+# enrollments <- enrollments %>%
+#   rename(
+#     DEM_Geslacht_naam = geslacht_label,
+#     INS_Opleidingsvorm_naam = opleidingsvorm_label,
+#     INS_Opleidingsfase_actueel_naam = opleidingsfase_actueel_label,
+#     INS_Indicatie_actief_op_peildatum_omschrijving = indicatie_actief_op_peildatum_label,
+#     DEM_Nationaliteit_1_naam = nationaliteit_1_omschrijving_nationaliteit,
+#     DEM_Nationaliteit_2_naam = nationaliteit_2_omschrijving_nationaliteit,
+#     DEM_Nationaliteit_3_naam = nationaliteit_3_omschrijving_nationaliteit,
+#     INS_Indicatie_eerste_jaars_instelling_naam = indicatie_eerstejaars_actuele_instelling_label,
+#     INS_Hoogste_vooropleiding_soort_1CHO = hoogste_vooropleiding_cat,
+#     DEM_Leeftijd_peildatum_1_oktober_cat = leeftijd_per_peildatum_1_oktober_cat
+#   )
 
 ## xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ### 2.2 Recoding ####
@@ -206,11 +206,11 @@ enrollments <- enrollments %>%
   )
 
 # Uitgecomment: kolom al aanwezig via rename (indicatie_eerstejaars_actuele_instelling_label)
-# enrollments <- enrollments %>%
-#   mapping_translate(
-#     "INS_Indicatie_eerste_jaars_instelling",
-#     "INS_Indicatie_eerste_jaars_instelling_naam"
-#   )
+enrollments <- enrollments %>%
+  mapping_translate(
+    "INS_Indicatie_eerste_jaars_instelling",
+    "INS_Indicatie_eerste_jaars_instelling_naam"
+  )
 
 enrollments <- enrollments %>%
   mapping_translate(
@@ -219,26 +219,26 @@ enrollments <- enrollments %>%
   )
 
 # Uitgecomment: kolommen al aanwezig via rename (nationaliteit_*_omschrijving_nationaliteit)
-# enrollments <- enrollments %>%
-#   mapping_translate(
-#     "DEM_Nationaliteit_1",
-#     "DEM_Nationaliteit_1_naam",
-#     mapping_table_name = "Mapping_DEM_Nationaliteit_code_DEM_Nationaliteit_naam"
-#   )
-#
-# enrollments <- enrollments %>%
-#   mapping_translate(
-#     "DEM_Nationaliteit_2",
-#     "DEM_Nationaliteit_2_naam",
-#     mapping_table_name = "Mapping_DEM_Nationaliteit_code_DEM_Nationaliteit_naam"
-#   )
-#
-# enrollments <- enrollments %>%
-#   mapping_translate(
-#     "DEM_Nationaliteit_3",
-#     "DEM_Nationaliteit_3_naam",
-#     mapping_table_name = "Mapping_DEM_Nationaliteit_code_DEM_Nationaliteit_naam"
-#   )
+enrollments <- enrollments %>%
+  mapping_translate(
+    "DEM_Nationaliteit_1",
+    "DEM_Nationaliteit_1_naam",
+    mapping_table_name = "Mapping_DEM_Nationaliteit_code_DEM_Nationaliteit_naam"
+  )
+
+enrollments <- enrollments %>%
+  mapping_translate(
+    "DEM_Nationaliteit_2",
+    "DEM_Nationaliteit_2_naam",
+    mapping_table_name = "Mapping_DEM_Nationaliteit_code_DEM_Nationaliteit_naam"
+  )
+
+enrollments <- enrollments %>%
+  mapping_translate(
+    "DEM_Nationaliteit_3",
+    "DEM_Nationaliteit_3_naam",
+    mapping_table_name = "Mapping_DEM_Nationaliteit_code_DEM_Nationaliteit_naam"
+  )
 
 # Because the univariate plots work per category, continuous variables
 # like age are also transformed into categorical variables.
@@ -273,40 +273,40 @@ enrollments <- enrollments %>%
   )
 
 # Uitgecomment: kolom al aanwezig via rename (indicatie_actief_op_peildatum_label)
-# enrollments <- mapping_translate(
-#   enrollments,
-#   "INS_Indicatie_actief_op_peildatum_code",
-#   "INS_Indicatie_actief_op_peildatum_omschrijving"
-# )
+enrollments <- mapping_translate(
+  enrollments,
+  "INS_Indicatie_actief_op_peildatum_code",
+  "INS_Indicatie_actief_op_peildatum_omschrijving"
+)
 
 # Uitgecomment: kolom al aanwezig via rename (opleidingsfase_actueel_label)
-# enrollments <- mapping_translate(
-#   enrollments,
-#   "INS_Opleidingsfase_actueel_code",
-#   "INS_Opleidingsfase_actueel_naam"
-# )
+enrollments <- mapping_translate(
+  enrollments,
+  "INS_Opleidingsfase_actueel_code",
+  "INS_Opleidingsfase_actueel_naam"
+)
 
 # Uitgecomment: kolom al aanwezig via rename (opleidingsvorm_label)
-# enrollments <- mapping_translate(
-#   enrollments,
-#   "INS_Opleidingsvorm_code",
-#   "INS_Opleidingsvorm_naam"
-# )
+enrollments <- mapping_translate(
+  enrollments,
+  "INS_Opleidingsvorm_code",
+  "INS_Opleidingsvorm_naam"
+)
 
 # Uitgecomment: kolom al aanwezig via rename (leeftijd_per_peildatum_1_oktober_cat)
-# enrollments <- mapping_category(
-#   enrollments,
-#   "DEM_Leeftijd_peildatum_1_oktober",
-#   "DEM_Leeftijd_peildatum_1_oktober_cat",
-#   mapping_table_name = "Mapping_DEM_Leeftijd_cat"
-# )
+enrollments <- mapping_category(
+  enrollments,
+  "DEM_Leeftijd_peildatum_1_oktober",
+  "DEM_Leeftijd_peildatum_1_oktober_cat",
+  mapping_table_name = "Mapping_DEM_Leeftijd_cat"
+)
 
 # Uitgecomment: kolom al aanwezig via rename (geslacht_label)
-# enrollments <- mapping_translate(
-#   enrollments,
-#   "DEM_Geslacht_code",
-#   "DEM_Geslacht_naam"
-# )
+enrollments <- mapping_translate(
+  enrollments,
+  "DEM_Geslacht_code",
+  "DEM_Geslacht_naam"
+)
 
 # This variable leads to many categories because it's a number.
 # For the univariate plots we therefore create a categorical variable from this.
