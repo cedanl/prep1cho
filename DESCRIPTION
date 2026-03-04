@@ -1,0 +1,41 @@
+Package: choprep
+Title: 1CHO Inschrijvingsgegevens Voorbereiden
+Version: 0.1.0
+Authors@R:
+    person("Corneel", "den Hartogh", , "corneel.denhartogh@surf.nl", role = c("aut", "cre"),
+           comment = "Npuls CEDA (Centre for Educational Data Analytics)")
+Description: Bereid 1CijferHO inschrijvingsgegevens voor voor analyse en
+    visualisatie. Biedt functies voor het downloaden van RIO (Register Instellingen
+    en Opleidingen) referentiedata, het controleren van datakwaliteit, het toepassen
+    van mappingtabellen, en het verrijken van inschrijvingsgegevens met
+    opleidingsinformatie. Ontworpen voor Nederlandse hoger onderwijsinstellingen
+    die werken met 1CHO data.
+License: GPL (>= 3)
+URL: https://edu.nl/twt84
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.1.0)
+Imports:
+    data.table,
+    dplyr (>= 1.1.0),
+    fst,
+    lubridate,
+    purrr,
+    readr,
+    stringr,
+    tibble,
+    tidyr,
+    tools,
+    vusa
+Suggests:
+    LaF,
+    dataReporter,
+    quarto,
+    testthat (>= 3.0.0),
+    vvmover,
+    vvauditor,
+    knitr,
+    rmarkdown
+Config/testthat/edition: 3
