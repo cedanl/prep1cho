@@ -20,7 +20,7 @@
 get_rio <- function(force_download = FALSE) {
 
   # RIO download URL (DUO)
-  rio_url <- "https://duo.nl/open_onderwijsdata/images/02-actueel-rio.csv"
+  rio_url <- "https://onderwijsdata.duo.nl/datastore/dump/28a4d89b-c223-4dbc-8deb-9d02a533f215?format=csv"
 
   # Try to read from package installation first (if not forcing download)
   if (!force_download) {
