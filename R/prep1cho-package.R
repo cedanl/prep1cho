@@ -7,7 +7,7 @@
 ## usethis namespace: end
 NULL
 
-#' choprep: 1CHO Inschrijvingsgegevens Voorbereiden
+#' prep1cho: 1CHO Inschrijvingsgegevens Voorbereiden
 #'
 #' Bereid 1CijferHO inschrijvingsgegevens voor voor analyse en visualisatie.
 #' Het package biedt functies voor het downloaden van RIO referentiedata,
@@ -26,7 +26,7 @@ NULL
 #' @section Snelstart workflow:
 #' De eenvoudigste manier om een analyse uit te voeren:
 #' \preformatted{
-#' library(choprep)
+#' library(prep1cho)
 #'
 #' # Laad 1CHO gegevens
 #' enrollments <- read.csv2("EV299XX24_DEMO_decoded.csv")
@@ -63,6 +63,6 @@ NULL
 #' @references
 #' Npuls CEDA (Centre for Educational Data Analytics). Web: https://edu.nl/twt84
 #'
-#' @name choprep-package
-#' @aliases choprep
+#' @name prep1cho-package
+#' @aliases prep1cho
 NULL

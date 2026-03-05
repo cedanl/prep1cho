@@ -1,8 +1,8 @@
 # Test Package - Step by Step
-# Test choprep package stap voor stap
+# Test prep1cho package stap voor stap
 
 # Load package
-message("Loading choprep package...")
+message("Loading prep1cho package...")
 devtools::load_all()
 
 message("\n========================================")

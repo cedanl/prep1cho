@@ -79,11 +79,11 @@ prepare_rio <- function(rio,
   # Read mapping table for CROHO code translation
   map_croho <- utils::read.csv2(
     system.file("metadata/mapping_tables/Mapping_OPL_Code_in_jaar_OPL_Code_historisch.csv",
-                package = "choprep"),
+                package = "prep1cho"),
     stringsAsFactors = FALSE
   )
   # Development mode fallback
-  if (system.file(package = "choprep") == "") {
+  if (system.file(package = "prep1cho") == "") {
     map_croho <- utils::read.csv2("metadata/mapping_tables/Mapping_OPL_Code_in_jaar_OPL_Code_historisch.csv",
                                   stringsAsFactors = FALSE)
   }
@@ -155,7 +155,7 @@ prepare_enrollments_mapping <- function(enrollments) {
 
   # Helper function to read mapping table from package
   read_mapping <- function(filename) {
-    path <- system.file("metadata/mapping_tables", filename, package = "choprep")
+    path <- system.file("metadata/mapping_tables", filename, package = "prep1cho")
     if (path == "") {
       # Development mode - use relative path
       path <- file.path("metadata/mapping_tables", filename)
@@ -438,7 +438,7 @@ prepare_enrollments_supplemental <- function(enrollments, year, institution_brin
 
   # Helper function to read mapping table
   read_mapping <- function(filename) {
-    path <- system.file("metadata", "mapping_tables", filename, package = "choprep")
+    path <- system.file("metadata", "mapping_tables", filename, package = "prep1cho")
     if (!file.exists(path)) {
       rlang::abort(paste0("Mapping table not found: ", filename))
     }

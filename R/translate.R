@@ -17,7 +17,7 @@ translate_colnames_documentation <- function(data,
                                            doc_dir = "metadata/assertions") {
 
   # Read documentation file with column name mapping
-  doc_path <- system.file(file.path(doc_dir, doc_file), package = "choprep")
+  doc_path <- system.file(file.path(doc_dir, doc_file), package = "prep1cho")
   if (doc_path == "") {
     # Development mode - use relative path
     doc_path <- file.path(doc_dir, doc_file)

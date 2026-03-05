@@ -1,8 +1,8 @@
 # Test Package - Full Pipeline
-# Test choprep package met run_pipeline()
+# Test prep1cho package met run_pipeline()
 
 # Load package
-message("Loading choprep package...")
+message("Loading prep1cho package...")
 devtools::load_all()
 
 message("\n========================================")
