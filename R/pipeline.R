@@ -15,11 +15,7 @@
 #' @param create_synthetic Logisch. Maak synthetische test rows? Standaard: TRUE
 #' @param download_rio Logisch. Download fresh RIO data? Standaard: FALSE
 #'
-#' @return Een lijst met:
-#'   \item{data}{Data frame met verrijkte inschrijvingsgegevens}
-#'   \item{audit_report}{Data kwaliteitsrapport}
-#'   \item{n_enrollments}{Aantal verwerkte inschrijvingen}
-#'   \item{n_columns}{Aantal kolommen in output}
+#' @return Data frame met verrijkte inschrijvingsgegevens
 #'
 #' @export
 #'
@@ -29,10 +25,10 @@
 #'   enrollments <- read.csv2("EV299XX24_DEMO_decoded.csv")
 #'
 #'   # Voer pipeline uit met standaard instellingen
-#'   result <- run_pipeline(enrollments)
+#'   data <- run_pipeline(enrollments)
 #'
 #'   # Voor specifieke instelling en jaar
-#'   result <- run_pipeline(
+#'   data <- run_pipeline(
 #'     enrollments,
 #'     year = 2024,
 #'     institution_brin = "21PL",
@@ -40,10 +36,10 @@
 #'   )
 #'
 #'   # Bekijk resultaat
-#'   head(result$data)
+#'   head(data)
 #'
 #'   # Exporteer
-#'   write.csv2(result$data, "output.csv", row.names = FALSE)
+#'   write.csv2(data, "output.csv", row.names = FALSE)
 #' }
 run_pipeline <- function(enrollments,
                         rio_data = NULL,
@@ -72,8 +68,7 @@ run_pipeline <- function(enrollments,
 
   # Step 2: Audit enrollments
   message("\n[2/6] Auditing enrollments...")
-  audit_result <- audit_enrollments(enrollments)
-  enrollments_clean <- audit_result$data
+  enrollments_clean <- audit_enrollments(enrollments)
 
   # Step 3: Prepare RIO data
   message("\n[3/6] Preparing RIO data...")
@@ -92,7 +87,7 @@ run_pipeline <- function(enrollments,
 
   # Step 5: Combine with RIO
   message("\n[5/6] Combining with RIO data...")
-  enrollments_combined <- enrollments_prep |>
+  data <- enrollments_prep |>
     combine_enrollments_rio(rio_prepared$rio_per_jaar) |>
     combine_enrollments_calculations() |>
     combine_enrollments_final()
@@ -100,15 +95,10 @@ run_pipeline <- function(enrollments,
   # Step 6: Summary
   message("\n[6/6] Pipeline complete!")
   message("========================================")
-  message("Output rows: ", format(nrow(enrollments_combined), big.mark = ","))
-  message("Output columns: ", ncol(enrollments_combined))
+  message("Output rows: ", format(nrow(data), big.mark = ","))
+  message("Output columns: ", ncol(data))
   message("========================================\n")
 
   # Return results
-  return(list(
-    data = enrollments_combined,
-    audit_report = audit_result$report,
-    n_enrollments = nrow(enrollments_combined),
-    n_columns = ncol(enrollments_combined)
-  ))
+  return(data)
 }

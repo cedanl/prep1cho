@@ -20,10 +20,7 @@ message("  RIO rows: ", format(nrow(rio_data), big.mark = ","))
 
 # Step 2: Audit enrollments
 message("\n[2/5] Auditing enrollments...")
-audit_result <- audit_enrollments(enrollments)
-enrollments_clean <- audit_result$data
-message("  Empty columns: ", length(audit_result$report$empty_cols))
-message("  High NA columns: ", length(audit_result$report$high_na_cols))
+enrollments_clean <- audit_enrollments(enrollments)
 
 # Step 3: Prepare RIO data
 message("\n[3/5] Preparing RIO data...")
@@ -45,7 +42,7 @@ message("  Columns after mapping: ", ncol(enrollments_prep))
 
 # Step 5: Combine with RIO
 message("\n[5/5] Combining with RIO data...")
-enrollments_combined <- enrollments_prep |>
+data <- enrollments_prep |>
   combine_enrollments_rio(rio_prepared$rio_per_jaar) |>
   combine_enrollments_calculations() |>
   combine_enrollments_final()
@@ -54,14 +51,14 @@ enrollments_combined <- enrollments_prep |>
 message("\n========================================")
 message("Pipeline Complete!")
 message("========================================")
-message("Final rows: ", format(nrow(enrollments_combined), big.mark = ","))
-message("Final columns: ", ncol(enrollments_combined))
+message("Final rows: ", format(nrow(data), big.mark = ","))
+message("Final columns: ", ncol(data))
 
 message("\n========================================")
 message("Test Complete!")
 message("========================================")
-message("\nData available in: enrollments_combined")
+message("\nData available in: data")
 message("\nUsers can save data themselves:")
-message("  write.csv2(enrollments_combined, 'output/enrollments.csv', row.names = FALSE)")
-message("  fst::write_fst(enrollments_combined, 'output/enrollments.fst')")
-message("  saveRDS(enrollments_combined, 'output/enrollments.rds')")
+message("  write.csv2(data, 'output/enrollments.csv', row.names = FALSE)")
+message("  fst::write_fst(data, 'output/enrollments.fst')")
+message("  saveRDS(data, 'output/enrollments.rds')")

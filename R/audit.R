@@ -2,12 +2,11 @@
 #'
 #' Voert basale kwaliteitscontroles uit op inschrijvingsgegevens, inclusief
 #' controle op lege kolommen en hoog percentage missende waarden.
+#' Audit informatie wordt als messages/warnings getoond.
 #'
 #' @param enrollments Data frame met ruwe inschrijvingsgegevens
 #'
-#' @return Lijst met:
-#'   \item{data}{Originele data (ongewijzigd)}
-#'   \item{report}{Audit rapport met kwaliteitsindicatoren}
+#' @return Data frame met vertaalde kolom namen
 #'
 #' @keywords internal
 audit_enrollments <- function(enrollments) {
@@ -30,7 +29,10 @@ audit_enrollments <- function(enrollments) {
   n_empty <- sum(empty_cols)
 
   if (n_empty > 0) {
+    message("  Empty columns: ", n_empty)
     warning(paste0(n_empty, " columns are completely empty"))
+  } else {
+    message("  Empty columns: 0")
   }
 
   # Check NA percentages
@@ -38,24 +40,15 @@ audit_enrollments <- function(enrollments) {
   high_na <- na_pct[na_pct > 75]
 
   if (length(high_na) > 0) {
+    message("  High NA columns: ", length(high_na))
     warning(paste0(length(high_na), " columns have >75% missing values"))
+  } else {
+    message("  High NA columns: 0")
   }
-
-  # Create audit report
-  audit_report <- list(
-    n_rows = n_rows,
-    n_cols = n_cols,
-    empty_cols = names(empty_cols)[empty_cols],
-    high_na_cols = names(high_na),
-    na_summary = na_pct
-  )
 
   message("Audit complete.")
 
-  return(list(
-    data = enrollments,
-    report = audit_report
-  ))
+  return(enrollments)
 }
 
 #' Controleer en vertaal RIO kolommen
@@ -74,7 +67,7 @@ audit_rio <- function(rio_data) {
 
 
   # Translate column names from new RIO format to old format
-  rio_data <- translate_rio_colnames(rio_data, doc_path)
+  rio_data <- vusa::wrapper_translate_colnames_documentation(rio_data, doc_naming)
 
   return(rio_data)
 }

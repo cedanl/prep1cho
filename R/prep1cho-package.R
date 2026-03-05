@@ -32,17 +32,17 @@ NULL
 #' enrollments <- read.csv2("EV299XX24_DEMO_decoded.csv")
 #'
 #' # Voer pipeline uit
-#' result <- run_pipeline(
+#' data <- run_pipeline(
 #'   enrollments,
 #'   year = 2024,
 #'   institution_brin = "21XX"
 #' )
 #'
 #' # Bekijk resultaat
-#' head(result$data)
+#' head(data)
 #'
 #' # Sla op (optioneel)
-#' write.csv2(result$data, "output.csv", row.names = FALSE)
+#' write.csv2(data, "output.csv", row.names = FALSE)
 #' }
 #'
 #' @section Stap-voor-stap workflow:
