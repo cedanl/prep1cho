@@ -1,19 +1,3 @@
-# Audit Functions
-# Data quality checks and validation
-
-#' Translate enrollment column names from 1CHO to internal format
-#'
-#' @param enrollments Data frame met 1CHO enrollment data (export kolom namen)
-#' @return Data frame met vertaalde kolom namen (internal format)
-#' @keywords internal
-translate_enrollments_colnames <- function(enrollments) {
-  translate_colnames_documentation(
-    enrollments,
-    doc_file = "Documentatie_enrollments_avans_feature_requests.csv"
-  )
-}
-
-
 #' Controleer datakwaliteit van inschrijvingsgegevens
 #'
 #' Voert basale kwaliteitscontroles uit op inschrijvingsgegevens, inclusief
@@ -28,8 +12,10 @@ translate_enrollments_colnames <- function(enrollments) {
 #' @keywords internal
 audit_enrollments <- function(enrollments) {
 
+  doc_path <- system.file(file.path("metadata/assertions/Documentatie_enrollments_avans_feature_requests.csv"), package = "prep1cho")
+  doc_naming <- utils::read.csv2(doc_path, stringsAsFactors = FALSE)
   # Translate column names from 1CHO format to internal format
-  enrollments <- translate_enrollments_colnames(enrollments)
+  enrollments <- vusa::wrapper_translate_colnames_documentation(enrollments, doc_naming)
 
   # Basic validation
   n_rows <- nrow(enrollments)
@@ -70,4 +56,28 @@ audit_enrollments <- function(enrollments) {
     data = enrollments,
     report = audit_report
   ))
+}
+
+#' Controleer datakwaliteit van inschrijvingsgegevens
+#'
+#' Voert basale kwaliteitscontroles uit op inschrijvingsgegevens, inclusief
+#' controle op lege kolommen en hoog percentage missende waarden.
+#'
+#' @param enrollments Data frame met ruwe inschrijvingsgegevens
+#'
+#' @return Lijst met:
+#'   \item{data}{Originele data (ongewijzigd)}
+#'   \item{report}{Audit rapport met kwaliteitsindicatoren}
+#'
+#' @keywords internal
+audit_rio <- function(rio_data) {
+
+  doc_path <- system.file(file.path("metadata/assertions/Documentatie_RIO.csv"), package = "prep1cho")
+  doc_naming <- utils::read.csv2(doc_path, stringsAsFactors = FALSE)
+
+
+  # Translate column names from new RIO format to old format
+  rio_data <- translate_rio_colnames(rio_data, doc_path)
+
+  return(rio_data)
 }
