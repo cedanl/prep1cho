@@ -28,11 +28,7 @@ RIO data automatisch gedownload.}
 \item{download_rio}{Logisch. Download fresh RIO data? Standaard: FALSE}
 }
 \value{
-Een lijst met:
-\item{data}{Data frame met verrijkte inschrijvingsgegevens}
-\item{audit_report}{Data kwaliteitsrapport}
-\item{n_enrollments}{Aantal verwerkte inschrijvingen}
-\item{n_columns}{Aantal kolommen in output}
+Data frame met verrijkte inschrijvingsgegevens
 }
 \description{
 Deze functie voert de complete pipeline uit voor het voorbereiden van 1CijferHO
@@ -45,10 +41,10 @@ mapping tables toepassen, en verrijking met RIO referentiedata.
   enrollments <- read.csv2("EV299XX24_DEMO_decoded.csv")
 
   # Voer pipeline uit met standaard instellingen
-  result <- run_pipeline(enrollments)
+  data <- run_pipeline(enrollments)
 
   # Voor specifieke instelling en jaar
-  result <- run_pipeline(
+  data <- run_pipeline(
     enrollments,
     year = 2024,
     institution_brin = "21PL",
@@ -56,9 +52,9 @@ mapping tables toepassen, en verrijking met RIO referentiedata.
   )
 
   # Bekijk resultaat
-  head(result$data)
+  head(data)
 
   # Exporteer
-  write.csv2(result$data, "output.csv", row.names = FALSE)
+  write.csv2(data, "output.csv", row.names = FALSE)
 }
 }

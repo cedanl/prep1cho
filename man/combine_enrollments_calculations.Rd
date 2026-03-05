@@ -15,4 +15,3 @@ Data frame met toegevoegde berekende velden
 \description{
 Berekent afgeleide indicatoren voor study success en switches.
 }
-\keyword{internal}

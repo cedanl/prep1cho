@@ -16,7 +16,7 @@
 #'   \item{rio}{Voorbereide RIO data}
 #'   \item{rio_per_jaar}{RIO data per academisch jaar}
 #'
-#' @keywords internal
+#' @export
 prepare_rio <- function(rio,
                        year = 2024,
                        institution_brin = "21XX",
@@ -179,7 +179,7 @@ prepare_enrollments_mapping <- function(enrollments) {
   map_profiel_afk <- read_mapping("Mapping_INS_Profiel_omschrijving_Profiel_afkorting.csv")
 
   enrollments <- enrollments |>
-    rename(DEM_Nationaliteit_1_naam = DEM_Nationaliteit_1_omschrijving,
+    dplyr::rename(DEM_Nationaliteit_1_naam = DEM_Nationaliteit_1_omschrijving,
            DEM_Nationaliteit_2_naam = DEM_Nationaliteit_2_omschrijving,
            DEM_Nationaliteit_3_naam = DEM_Nationaliteit_3_omschrijving)
 
@@ -226,7 +226,7 @@ prepare_enrollments_mapping <- function(enrollments) {
 #' @param year Academisch jaar voor configuratie
 #' @param institution_brin BRIN code van de instelling
 #' @return Data frame met supplemental fields
-#' @keywords internal
+#' @export
 prepare_enrollments_supplemental <- function(enrollments, year, institution_brin) {
 
   enrollments <- enrollments |>

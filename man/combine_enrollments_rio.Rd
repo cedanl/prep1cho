@@ -17,4 +17,3 @@ Data frame met verrijkte inschrijvingsgegevens
 \description{
 Voegt RIO referentiedata toe aan inschrijvingsgegevens via left join.
 }
-\keyword{internal}

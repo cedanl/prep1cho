@@ -19,4 +19,3 @@ Data frame met supplemental fields
 \description{
 Voeg aanvullende berekende velden toe aan inschrijvingsgegevens.
 }
-\keyword{internal}

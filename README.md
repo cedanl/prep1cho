@@ -61,6 +61,54 @@ head(data)
 write.csv2(data, "output.csv", row.names = FALSE)
 ```
 
+### Stap-voor-Stap Gebruik
+
+Voor meer controle kun je de pipeline ook stap voor stap uitvoeren:
+
+```r
+library(prep1cho)
+
+# Laad ruwe data
+enrollments <- read.csv2("EV299XX24_DEMO_decoded.csv")
+
+# Stap 1: Haal RIO referentiedata op
+rio_data <- get_rio(force_download = FALSE)
+
+# Stap 2: Controleer datakwaliteit
+enrollments_clean <- audit_enrollments(enrollments)
+
+# Stap 3: Bereid RIO data voor
+rio_prepared <- prepare_rio(
+  rio_data,
+  year = 2024,
+  institution_brin = "21XX",
+  create_synthetic = TRUE
+)
+
+# Stap 4: Bereid inschrijvingen voor met mappingtabellen
+enrollments_prep <- enrollments_clean |>
+  prepare_enrollments_mapping() |>
+  prepare_enrollments_supplemental(
+    year = 2024,
+    institution_brin = "21XX"
+  )
+
+# Stap 5: Combineer met RIO en voeg berekende velden toe
+data <- enrollments_prep |>
+  combine_enrollments_rio(rio_prepared$rio_per_jaar) |>
+  combine_enrollments_calculations() |>
+  combine_enrollments_final()
+
+# Klaar! Data is nu gereed voor export/visualisatie
+head(data)
+```
+
+**Voordelen van stap-voor-stap:**
+- 🔍 Inspecteer tussenresultaten na elke stap
+- 🐛 Vind problemen sneller tijdens development
+- 🔧 Pas individuele stappen aan zonder hele pipeline te herschrijven
+- 📊 Gebruik tussenresultaten voor analyses
+
 ### Development Setup
 
 Voor package development:
@@ -111,11 +159,18 @@ Het package biedt functies om 1CijferHO data voor te bereiden voor visualisatie:
 
 ### Belangrijkste Functies
 
+#### Pipeline Functies
+- `run_pipeline()` - Voer volledige pipeline uit (AANBEVOLEN voor productie)
 - `get_rio()` - Haal RIO referentiedata op
-- `run_pipeline()` - Voer volledige pipeline uit (AANBEVOLEN)
-- `audit_enrollments()` - Controleer datakwaliteit
-- `prepare_enrollments_mapping()` - Pas mappingtabellen toe
-- `combine_enrollments_rio()` - Verrijk met RIO gegevens
+
+#### Stap-voor-Stap Functies
+- `audit_enrollments()` - Controleer datakwaliteit van ruwe data
+- `prepare_rio()` - Bereid RIO referentiedata voor
+- `prepare_enrollments_mapping()` - Pas mappingtabellen toe op inschrijvingen
+- `prepare_enrollments_supplemental()` - Voeg aanvullende berekende velden toe
+- `combine_enrollments_rio()` - Verrijk inschrijvingen met RIO gegevens
+- `combine_enrollments_calculations()` - Bereken studiesucces indicatoren
+- `combine_enrollments_final()` - Finale transformaties en opschoning
 
 ### Afgeleide Variabelen
 

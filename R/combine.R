@@ -9,7 +9,7 @@
 #' @param rio_per_jaar Data frame met RIO data per academisch jaar
 #'
 #' @return Data frame met verrijkte inschrijvingsgegevens
-#' @keywords internal
+#' @export
 combine_enrollments_rio <- function(enrollments, rio_per_jaar) {
 
   # Prepare RIO data for joining (following old project logic)
@@ -51,7 +51,7 @@ combine_enrollments_rio <- function(enrollments, rio_per_jaar) {
 #' @param enrollments Data frame met gecombineerde inschrijvingsgegevens
 #'
 #' @return Data frame met toegevoegde berekende velden
-#' @keywords internal
+#' @export
 combine_enrollments_calculations <- function(enrollments) {
 
   # Calculate type of outflow based on dropout/diploma and study duration
@@ -189,7 +189,7 @@ combine_enrollments_calculations <- function(enrollments) {
 #' @param enrollments Data frame met berekende inschrijvingsgegevens
 #'
 #' @return Data frame gereed voor export
-#' @keywords internal
+#' @export
 combine_enrollments_final <- function(enrollments) {
 
   # Add any final transformations

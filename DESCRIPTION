@@ -38,4 +38,6 @@ Suggests:
     vvauditor,
     knitr,
     rmarkdown
+Remotes:
+    aslamht/vusa@12-remove-pryr-use-lobstr
 Config/testthat/edition: 3

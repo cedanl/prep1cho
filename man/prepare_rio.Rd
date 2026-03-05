@@ -30,4 +30,3 @@ Transformeert ruwe RIO (Register Instellingen en Opleidingen) data naar
 bruikbaar formaat met datumvelden, status codes, en opleidingsnamen met
 niveau prefix (B/M/AD).
 }
-\keyword{internal}
