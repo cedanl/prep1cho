@@ -179,7 +179,7 @@ prepare_enrollments_mapping <- function(enrollments) {
   map_profiel_afk <- read_mapping("Mapping_INS_Profiel_omschrijving_Profiel_afkorting.csv")
 
   enrollments <- enrollments |>
-    rename(DEM_Nationaliteit_1_naam = DEM_Nationaliteit_1_omschrijving,
+    dplyr::rename(DEM_Nationaliteit_1_naam = DEM_Nationaliteit_1_omschrijving,
            DEM_Nationaliteit_2_naam = DEM_Nationaliteit_2_omschrijving,
            DEM_Nationaliteit_3_naam = DEM_Nationaliteit_3_omschrijving)
 
