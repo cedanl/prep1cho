@@ -17,7 +17,7 @@ verrijken van inschrijvingsgegevens met opleidingsinformatie.
 
 \describe{
 \item{\code{\link{run_pipeline}}}{Voer volledige pipeline uit (AANBEVOLEN)}
-\item{\code{\link{download_rio}}}{Download RIO referentiedata}
+\item{\code{\link{get_rio}}}{Download RIO referentiedata}
 \item{\code{\link{audit_enrollments}}}{Controleer datakwaliteit}
 \item{\code{\link{prepare_enrollments_mapping}}}{Pas mappingtabellen toe}
 \item{\code{\link{combine_enrollments_rio}}}{Verrijk met RIO gegevens}
@@ -52,7 +52,7 @@ write.csv2(result$data, "output.csv", row.names = FALSE)
 
 Voor meer controle over elke stap:
 \enumerate{
-\item Download RIO data met \code{download_rio()}
+\item Download RIO data met \code{get_rio()}
 \item Controleer datakwaliteit met \code{audit_enrollments()}
 \item Pas mappings toe met \code{prepare_enrollments_mapping()}
 \item Verrijk met RIO met \code{combine_enrollments_rio()}

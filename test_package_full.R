@@ -19,7 +19,7 @@ result <- run_pipeline(
   year = 2024,
   institution_brin = "21XX",
   create_synthetic = TRUE,
-  download_rio = FALSE  # Use existing RIO data
+  download_rio = FALSE  # Use bundled or cached RIO data
 )
 
 # Check results

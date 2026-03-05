@@ -53,19 +53,21 @@ run_pipeline <- function(enrollments,
                         download_rio = FALSE) {
 
   message("\n========================================")
-  message("CHOPREP Pipeline")
+  message("PREP1CHO Pipeline")
   message("========================================")
   message("Year: ", year)
   message("Institution: ", institution_brin)
   message("Input rows: ", format(nrow(enrollments), big.mark = ","))
   message("========================================\n")
 
-  # Step 1: Download RIO data if needed
+  # Step 1: Get RIO data if needed
   if (is.null(rio_data) || download_rio) {
-    message("[1/6] Downloading RIO data...")
-    rio_data <- download_rio(force_download = download_rio)
+    message("[1/6] Getting RIO data...")
+    rio_data <- get_rio(force_download = download_rio)
   } else {
     message("[1/6] Using provided RIO data...")
+    message("  Auditing RIO data...")
+    rio_data <- audit_rio(rio_data)
   }
 
   # Step 2: Audit enrollments

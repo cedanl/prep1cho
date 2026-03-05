@@ -58,16 +58,13 @@ audit_enrollments <- function(enrollments) {
   ))
 }
 
-#' Controleer datakwaliteit van inschrijvingsgegevens
+#' Controleer en vertaal RIO kolommen
 #'
-#' Voert basale kwaliteitscontroles uit op inschrijvingsgegevens, inclusief
-#' controle op lege kolommen en hoog percentage missende waarden.
+#' Vertaalt kolom namen van RIO data van DUO export formaat naar intern formaat.
 #'
-#' @param enrollments Data frame met ruwe inschrijvingsgegevens
+#' @param rio_data Data frame met ruwe RIO data
 #'
-#' @return Lijst met:
-#'   \item{data}{Originele data (ongewijzigd)}
-#'   \item{report}{Audit rapport met kwaliteitsindicatoren}
+#' @return Data frame met vertaalde kolom namen
 #'
 #' @keywords internal
 audit_rio <- function(rio_data) {

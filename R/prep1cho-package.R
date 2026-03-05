@@ -17,7 +17,7 @@ NULL
 #' @section Belangrijkste functies:
 #' \describe{
 #'   \item{\code{\link{run_pipeline}}}{Voer volledige pipeline uit (AANBEVOLEN)}
-#'   \item{\code{\link{download_rio}}}{Download RIO referentiedata}
+#'   \item{\code{\link{get_rio}}}{Haal RIO referentiedata op}
 #'   \item{\code{\link{audit_enrollments}}}{Controleer datakwaliteit}
 #'   \item{\code{\link{prepare_enrollments_mapping}}}{Pas mappingtabellen toe}
 #'   \item{\code{\link{combine_enrollments_rio}}}{Verrijk met RIO gegevens}
@@ -48,7 +48,7 @@ NULL
 #' @section Stap-voor-stap workflow:
 #' Voor meer controle over elke stap:
 #' \enumerate{
-#'   \item Download RIO data met \code{download_rio()}
+#'   \item Haal RIO data op met \code{get_rio()}
 #'   \item Controleer datakwaliteit met \code{audit_enrollments()}
 #'   \item Pas mappings toe met \code{prepare_enrollments_mapping()}
 #'   \item Verrijk met RIO met \code{combine_enrollments_rio()}

@@ -1,51 +1,56 @@
-#' Download RIO referentiedata
+#' Get RIO referentiedata
 #'
-#' Download actuele RIO (Register Instellingen en Opleidingen) data van DUO.
-#' Gebruikt cached versie indien beschikbaar, tenzij force_download = TRUE.
+#' Haal actuele RIO (Register Instellingen en Opleidingen) data op.
+#' Probeert eerst gebundelde data te lezen uit package installatie.
+#' Als niet beschikbaar, download dan van DUO (zonder op te slaan).
 #'
-#' @param output_dir Directory voor opslag. Standaard: "data/00_raw"
-#' @param force_download Logisch. Forceer nieuwe download? Standaard: FALSE
+#' @param force_download Logisch. Forceer download van DUO? Standaard: FALSE
 #'
 #' @return Data frame met RIO referentiedata
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'   # Download RIO data (gebruikt cache indien beschikbaar)
-#'   rio <- download_rio()
+#'   # Get RIO data (from package or download)
+#'   rio <- get_rio()
 #'
-#'   # Forceer nieuwe download
-#'   rio <- download_rio(force_download = TRUE)
+#'   # Force download from DUO
+#'   rio <- get_rio(force_download = TRUE)
 #' }
-download_rio <- function(output_dir = "data/00_raw", force_download = FALSE) {
+get_rio <- function(force_download = FALSE) {
 
   # RIO download URL (DUO)
   rio_url <- "https://duo.nl/open_onderwijsdata/images/02-actueel-rio.csv"
 
-  # Output path
-  output_file <- file.path(output_dir, "rio.csv")
+  # Try to read from package installation first (if not forcing download)
+  if (!force_download) {
+    rio_file <- system.file("data/rio.csv", package = "prep1cho")
 
-  # Skip if already exists and not forcing download
-  if (file.exists(output_file) && !force_download) {
-    message("RIO file already exists. Use force_download = TRUE to re-download.")
-    rio_data <- utils::read.csv(output_file, stringsAsFactors = FALSE)
-    # Translate column names from new RIO format to old format
-    rio_data <- translate_rio_colnames(rio_data)
-    return(rio_data)
+    if (rio_file != "") {
+      message("Reading RIO data from package...")
+      rio_data <- utils::read.csv(rio_file, stringsAsFactors = FALSE)
+      # Audit and translate column names
+      rio_data <- audit_rio(rio_data)
+      return(rio_data)
+    }
   }
 
-  # Download file
+  # Download directly into memory
   message("Downloading RIO data from DUO...")
 
   tryCatch(
     {
-      utils::download.file(rio_url, output_file, mode = "wb", quiet = FALSE)
-      message("Download complete: ", output_file)
+      # Read directly from URL
+      rio_data <- utils::read.csv(url(rio_url), stringsAsFactors = FALSE)
+      message("Download complete.")
+
+      # Audit and translate column names
+      rio_data <- audit_rio(rio_data)
+
+      return(rio_data)
     },
     error = function(e) {
-      stop(paste0("Failed to download RIO data: ", e$message))
+      rlang::abort(paste0("Failed to download RIO data: ", e$message))
     }
   )
-
-  return(rio_data)
 }

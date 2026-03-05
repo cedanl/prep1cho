@@ -13,9 +13,9 @@ message("========================================\n")
 enrollments <- read.csv2("data/00_raw/EV299XX24_DEMO_decoded.csv")
 message("Loaded enrollments: ", format(nrow(enrollments), big.mark = ","), " rows")
 
-# Step 1: Download RIO data
-message("\n[1/5] Downloading RIO data...")
-rio_data <- download_rio(force_download = FALSE)
+# Step 1: Get RIO data
+message("\n[1/5] Getting RIO data...")
+rio_data <- get_rio(force_download = FALSE)
 message("  RIO rows: ", format(nrow(rio_data), big.mark = ","))
 
 # Step 2: Audit enrollments
