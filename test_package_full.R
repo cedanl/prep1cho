@@ -10,7 +10,7 @@ message("Testing Full Pipeline")
 message("========================================\n")
 
 # Load test data
-enrollments <- read.csv2("data/00_raw/EV299XX24_DEMO_decoded.csv")
+enrollments <- read.csv2("synth_data/EV299XX24_DEMO_decoded.csv")
 message("Loaded enrollments: ", format(nrow(enrollments), big.mark = ","), " rows")
 
 # Run full pipeline

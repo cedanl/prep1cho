@@ -24,7 +24,7 @@ get_rio <- function(force_download = FALSE) {
 
   # Try to read from package installation first (if not forcing download)
   if (!force_download) {
-    rio_file <- system.file("data/rio.csv", package = "prep1cho")
+    rio_file <- system.file("rio.csv", package = "prep1cho")
 
     if (rio_file != "") {
       message("Reading RIO data from package...")

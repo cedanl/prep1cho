@@ -1,9 +1,0 @@
-# Ignore everything
-*.*
-!*synthetic.zip
-!*synthetic.csv
-!*synthetic.rds
-!*synthetic.html
-!*synthetic.asc
-# Except
-!.gitignore
