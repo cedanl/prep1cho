@@ -163,6 +163,21 @@ prepare_enrollments_mapping <- function(enrollments) {
     utils::read.csv2(path, stringsAsFactors = FALSE)
   }
 
+  # Convert date columns first (needed for later calculations)
+  enrollments <- enrollments |>
+    dplyr::mutate(
+      INS_Datum_inschrijving = as.Date(
+        INS_Datum_inschrijving,
+        format = "%d/%m/%Y",
+        tryFormats = c("%d/%m/%Y", "%d-%m-%Y")
+      ),
+      INS_Datum_uitschrijving = as.Date(
+        INS_Datum_uitschrijving,
+        format = "%d/%m/%Y",
+        tryFormats = c("%d/%m/%Y", "%d-%m-%Y")
+      )
+    )
+
   # Read all mapping tables
   map_geslacht <- read_mapping("Mapping_DEM_Geslacht_code_DEM_Geslacht_naam.csv")
   map_opleidingsvorm <- read_mapping("Mapping_INS_Opleidingsvorm_code_INS_Opleidingsvorm_naam.csv")
@@ -365,8 +380,16 @@ prepare_enrollments_supplemental <- function(enrollments, year, institution_brin
         dplyr::n(),
         NA_integer_
       ),
-      INS_Eerste_datum_inschrijving = min(INS_Datum_inschrijving, na.rm = TRUE),
-      INS_Laatste_datum_uitschrijving = max(INS_Datum_uitschrijving, na.rm = TRUE),
+      INS_Eerste_datum_inschrijving = if (all(is.na(INS_Datum_inschrijving))) {
+        as.Date(NA)
+      } else {
+        min(INS_Datum_inschrijving, na.rm = TRUE)
+      },
+      INS_Laatste_datum_uitschrijving = if (all(is.na(INS_Datum_uitschrijving))) {
+        as.Date(NA)
+      } else {
+        max(INS_Datum_uitschrijving, na.rm = TRUE)
+      },
       INS_Tijd_tot_diploma_in_maanden = dplyr::case_when(
         INS_Datum_tekening_diploma <= INS_Eerste_datum_inschrijving ~ 0,
         !is.na(INS_Datum_tekening_diploma) ~

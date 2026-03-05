@@ -24,8 +24,16 @@ combine_enrollments_rio <- function(enrollments, rio_per_jaar) {
     ) |>
     dplyr::group_by(OPL_Code_in_jaar) |>
     dplyr::mutate(
-      OPL_Nominale_studieduur = min(OPL_Nominale_studieduur, na.rm = TRUE),
-      OPL_Bekostigingsduur = min(OPL_Bekostigingsduur, na.rm = TRUE)
+      OPL_Nominale_studieduur = if (all(is.na(OPL_Nominale_studieduur))) {
+        NA_real_
+      } else {
+        min(OPL_Nominale_studieduur, na.rm = TRUE)
+      },
+      OPL_Bekostigingsduur = if (all(is.na(OPL_Bekostigingsduur))) {
+        NA_real_
+      } else {
+        min(OPL_Bekostigingsduur, na.rm = TRUE)
+      }
     ) |>
     dplyr::ungroup() |>
     dplyr::distinct()
