@@ -10,12 +10,10 @@ audit_enrollments(enrollments)
 \item{enrollments}{Data frame met ruwe inschrijvingsgegevens}
 }
 \value{
-Lijst met:
-\item{data}{Originele data (ongewijzigd)}
-\item{report}{Audit rapport met kwaliteitsindicatoren}
+Data frame met vertaalde kolom namen
 }
 \description{
 Voert basale kwaliteitscontroles uit op inschrijvingsgegevens, inclusief
 controle op lege kolommen en hoog percentage missende waarden.
+Audit informatie wordt als messages/warnings getoond.
 }
-\keyword{internal}

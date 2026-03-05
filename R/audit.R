@@ -7,8 +7,7 @@
 #' @param enrollments Data frame met ruwe inschrijvingsgegevens
 #'
 #' @return Data frame met vertaalde kolom namen
-#'
-#' @keywords internal
+#' @export
 audit_enrollments <- function(enrollments) {
 
   doc_path <- system.file(file.path("metadata/assertions/Documentatie_ev.csv"), package = "prep1cho")
