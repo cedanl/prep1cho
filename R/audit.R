@@ -11,7 +11,7 @@
 #' @keywords internal
 audit_enrollments <- function(enrollments) {
 
-  doc_path <- system.file(file.path("metadata/assertions/Documentatie_enrollments_avans_feature_requests.csv"), package = "prep1cho")
+  doc_path <- system.file(file.path("metadata/assertions/Documentatie_ev.csv"), package = "prep1cho")
   doc_naming <- utils::read.csv2(doc_path, stringsAsFactors = FALSE)
   # Translate column names from 1CHO format to internal format
   enrollments <- vusa::wrapper_translate_colnames_documentation(enrollments, doc_naming)

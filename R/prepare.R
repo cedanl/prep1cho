@@ -172,12 +172,16 @@ prepare_enrollments_mapping <- function(enrollments) {
   map_eerstejaars_cat <- read_mapping("Mapping_INS_Indicatie_eerste_jaars_instelling_INS_Indicatie_eerste_jaars_instelling_Cat.csv")
   map_eerstejaars_naam <- read_mapping("Mapping_INS_Indicatie_eerste_jaars_instelling_INS_Indicatie_eerste_jaars_instelling_naam.csv")
   map_eerstejaars_opl <- read_mapping("Mapping_INS_Indicatie_eerste_jaars_opleiding_en_instelling_INS_Indicatie_eerste_jaars_opleiding_en_instelling_naam.csv")
-  map_nationaliteit <- read_mapping("Mapping_DEM_Nationaliteit_code_DEM_Nationaliteit_naam.csv")
   map_leeftijd <- read_mapping("Mapping_DEM_Leeftijd_cat.csv")
   map_inschrijving <- read_mapping("Mapping_INS_Soort_inschrijving_1CHO_code_INS_Soort_inschrijving_1CHO_cat.csv")
   map_verblijfsjaren <- read_mapping("Mapping_INS_Verblijfsjaren_wetenschappelijk_onderwijs_cat.csv")
   map_vooropleiding_profiel <- read_mapping("Mapping_INS_Vooropleiding_code_INS_Vooropleiding_naam.csv")
   map_profiel_afk <- read_mapping("Mapping_INS_Profiel_omschrijving_Profiel_afkorting.csv")
+
+  enrollments <- enrollments |>
+    rename(DEM_Nationaliteit_1_naam = DEM_Nationaliteit_1_omschrijving,
+           DEM_Nationaliteit_2_naam = DEM_Nationaliteit_2_omschrijving,
+           DEM_Nationaliteit_3_naam = DEM_Nationaliteit_3_omschrijving)
 
   # Apply mappings
   enrollments_mapped <- enrollments |>
@@ -197,12 +201,6 @@ prepare_enrollments_mapping <- function(enrollments) {
                            mapping_table_input = map_eerstejaars_naam) |>
     vusa::mapping_translate("INS_Indicatie_eerste_jaars_opleiding_en_instelling", "INS_Indicatie_eerste_jaars_opleiding_en_instelling_naam",
                            mapping_table_input = map_eerstejaars_opl) |>
-    vusa::mapping_translate("DEM_Nationaliteit_1", "DEM_Nationaliteit_1_naam",
-                           mapping_table_input = map_nationaliteit) |>
-    vusa::mapping_translate("DEM_Nationaliteit_2", "DEM_Nationaliteit_2_naam",
-                           mapping_table_input = map_nationaliteit) |>
-    vusa::mapping_translate("DEM_Nationaliteit_3", "DEM_Nationaliteit_3_naam",
-                           mapping_table_input = map_nationaliteit) |>
     vusa::mapping_category("DEM_Leeftijd_peildatum_1_jan", "DEM_Leeftijd_peildatum_1_jan_cat",
                           mapping_table_input = map_leeftijd) |>
     vusa::mapping_translate("INS_Soort_inschrijving_1CHO_code", "INS_Soort_inschrijving_1CHO_cat",
