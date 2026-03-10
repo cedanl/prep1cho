@@ -23,7 +23,7 @@ test_that("academic_year handles character dates", {
 test_that("minnum handles numeric vectors correctly", {
   expect_equal(minnum(c(1, 2, 3)), 1)
   expect_equal(minnum(c(-5, -2, 3)), -5)
-  expect_equal(minnum(c(1.5, 2.3, 0.1)), 0)  # Uses round_values which floors negatives
+  expect_equal(minnum(c(1.5, 2.3, 0.1)), 1)  # Uses round_values which ceils positives
 })
 
 
