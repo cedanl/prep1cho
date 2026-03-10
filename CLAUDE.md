@@ -55,6 +55,11 @@ if (length(na_high) > 0) {
 - **Configuration**: `config.yml` (default = synthetic data, vu = VU-specific)
 
 ## Code Conventions
+- **Simplicity first**: Choose simple, clean, understandable code over clever solutions
+  - Prefer clarity over brevity
+  - Write code that others can understand at a glance
+  - Avoid unnecessary abstractions or complex patterns
+  - If you can solve it in 5 lines clearly, don't use 3 lines cryptically
 - **Section headers**: `## ++++...++++` pattern (100+ chars)
 - **Variable naming**: Dutch prefixes (INS_*, OPL_*, DEM_*)
 - **Comments**: English
