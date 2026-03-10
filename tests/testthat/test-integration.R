@@ -1,10 +1,12 @@
 # Integration tests for full pipeline
 
 test_that("full pipeline runs without errors on synthetic data", {
-  skip_if_not(dir.exists("synth_data"), "Synthetic data not available")
+  # Path relative to package root
+  synth_data_path <- file.path("..", "..", "synth_data")
+  skip_if_not(dir.exists(synth_data_path), "Synthetic data not available")
 
   # Load synthetic enrollment data
-  enrollments_path <- "synth_data/EV299XX24_DEMO_decoded.csv"
+  enrollments_path <- file.path(synth_data_path, "EV299XX24_DEMO_decoded.csv")
   skip_if_not(file.exists(enrollments_path), "Synthetic enrollment data not found")
 
   enrollments <- read.csv2(enrollments_path)
@@ -27,9 +29,10 @@ test_that("full pipeline runs without errors on synthetic data", {
 
 
 test_that("mapping functions produce expected column counts", {
-  skip_if_not(dir.exists("synth_data"), "Synthetic data not available")
+  synth_data_path <- file.path("..", "..", "synth_data")
+  skip_if_not(dir.exists(synth_data_path), "Synthetic data not available")
 
-  enrollments_path <- "synth_data/EV299XX24_DEMO_decoded.csv"
+  enrollments_path <- file.path(synth_data_path, "EV299XX24_DEMO_decoded.csv")
   skip_if_not(file.exists(enrollments_path), "Synthetic enrollment data not found")
 
   enrollments <- read.csv2(enrollments_path)
@@ -45,9 +48,10 @@ test_that("mapping functions produce expected column counts", {
 
 
 test_that("mappings do not produce excessive NA values", {
-  skip_if_not(dir.exists("synth_data"), "Synthetic data not available")
+  synth_data_path <- file.path("..", "..", "synth_data")
+  skip_if_not(dir.exists(synth_data_path), "Synthetic data not available")
 
-  enrollments_path <- "synth_data/EV299XX24_DEMO_decoded.csv"
+  enrollments_path <- file.path(synth_data_path, "EV299XX24_DEMO_decoded.csv")
   skip_if_not(file.exists(enrollments_path), "Synthetic enrollment data not found")
 
   # Test with small sample for speed
@@ -71,8 +75,7 @@ test_that("mappings do not produce excessive NA values", {
       expect_lt(
         na_rate,
         0.9,
-        label = paste0(col, " has too many NAs (", round(na_rate * 100, 1), "%)"),
-        info = "Mapping may have failed - check that source values match mapping table"
+        label = paste0(col, " has too many NAs (", round(na_rate * 100, 1), "%) - mapping may have failed")
       )
     }
   }
