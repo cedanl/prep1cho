@@ -1,0 +1,104 @@
+WARNING: 'test-pipeline.R:14:3' -------------------
+12 columns are completely empty
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(...) at test-pipeline.R:14:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(...)
+ 4.   └─prep1cho::audit_enrollments(enrollments) at prep1cho/R/pipeline.R:71:3
+
+WARNING: 'test-pipeline.R:14:3' -------------------
+16 columns have >75% missing values
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(...) at test-pipeline.R:14:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(...)
+ 4.   └─prep1cho::audit_enrollments(enrollments) at prep1cho/R/pipeline.R:71:3
+
+WARNING: 'test-pipeline.R:41:3' -------------------
+12 columns are completely empty
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(...) at test-pipeline.R:41:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(...)
+ 4.   └─prep1cho::audit_enrollments(enrollments) at prep1cho/R/pipeline.R:71:3
+
+WARNING: 'test-pipeline.R:41:3' -------------------
+16 columns have >75% missing values
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(...) at test-pipeline.R:41:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(...)
+ 4.   └─prep1cho::audit_enrollments(enrollments) at prep1cho/R/pipeline.R:71:3
+
+ERROR: 'test-pipeline.R:41:3' ---------------------
+<dplyr:::mutate_error/rlang_error/error/condition>
+Error in `dplyr::mutate(rio, Datum_begin_opleiding = suppressWarnings(lubridate::as_date(lubridate::ymd_hms(Datum_begin_opleiding))), Datum_einde_opleiding = suppressWarnings(lubridate::as_date(lubridate::ymd_hms(Datum_einde_opleiding))), Datum_einde_instroom = suppressWarnings(lubridate::as_date(lubridate::ymd_hms(Datum_einde_instroom))))`: i In argument: `Datum_begin_opleiding = suppressWarnings(lubridate::as_date(lubridate::ymd_hms(Datum_begin_opleiding)))`.
+Caused by error in `h()`:
+! error in evaluating the argument 'x' in selecting a method for function 'as_date': object 'Datum_begin_opleiding' not found
+Backtrace:
+     ▆
+  1. ├─base::suppressMessages(...) at test-pipeline.R:41:3
+  2. │ └─base::withCallingHandlers(...)
+  3. ├─prep1cho::run_pipeline(...)
+  4. │ └─prep1cho::prepare_rio(...) at prep1cho/R/pipeline.R:75:3
+  5. │   ├─dplyr::mutate(...) at prep1cho/R/prepare.R:29:3
+  6. │   └─dplyr:::mutate.data.frame(...)
+  7. │     └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
+  8. │       ├─base::withCallingHandlers(...)
+  9. │       └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
+ 10. │         └─mask$eval_all_mutate(quo)
+ 11. │           └─dplyr (local) eval()
+ 12. ├─base::suppressWarnings(lubridate::as_date(lubridate::ymd_hms(Datum_begin_opleiding)))
+ 13. │ └─base::withCallingHandlers(...)
+ 14. ├─lubridate::as_date(lubridate::ymd_hms(Datum_begin_opleiding))
+ 15. ├─lubridate::ymd_hms(Datum_begin_opleiding)
+ 16. │ └─lubridate:::.parse_xxx_hms(...)
+ 17. │   ├─base::unlist(lapply(list(...), .num_to_date), use.names = FALSE)
+ 18. │   └─base::lapply(list(...), .num_to_date)
+ 19. ├─base::.handleSimpleError(...)
+ 20. │ └─base (local) h(simpleError(msg, call))
+ 21. └─base::.handleSimpleError(...)
+ 22.   └─dplyr (local) h(simpleError(msg, call))
+ 23.     └─rlang::abort(message, class = error_class, parent = parent, call = error_call)
+
+ERROR: 'test-pipeline.R:56:3' ---------------------
+Error in ``colnames<-`(`*tmp*`, value = character(0))`: attempt to set 'colnames' on an object with less than two dimensions
+Backtrace:
+     ▆
+  1. ├─testthat::expect_error(run_pipeline(NULL), "nrow") at test-pipeline.R:56:3
+  2. │ └─testthat:::expect_condition_matching_(...)
+  3. │   └─testthat:::quasi_capture(...)
+  4. │     ├─testthat (local) .capture(...)
+  5. │     │ └─base::withCallingHandlers(...)
+  6. │     └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+  7. └─prep1cho::run_pipeline(NULL)
+  8.   └─prep1cho::audit_enrollments(enrollments) at prep1cho/R/pipeline.R:71:3
+  9.     └─prep1cho:::translate_colnames_documentation(enrollments, doc_naming) at prep1cho/R/audit.R:16:3
+ 10.       └─base::`colnames<-`(`*tmp*`, value = `<chr>`) at prep1cho/R/utils.R:211:3
+
+WARNING: 'test-pipeline.R:79:3' -------------------
+15 columns are completely empty
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(run_pipeline(enrollments)) at test-pipeline.R:79:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(enrollments)
+ 4.   └─prep1cho::audit_enrollments(enrollments) at prep1cho/R/pipeline.R:71:3
+
+WARNING: 'test-pipeline.R:79:3' -------------------
+25 columns have >75% missing values
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(run_pipeline(enrollments)) at test-pipeline.R:79:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(enrollments)
+ 4.   └─prep1cho::audit_enrollments(enrollments) at prep1cho/R/pipeline.R:71:3
+
+SKIP: 'test-prepare.R:4:3' ------------------------
+Reason: prepare_rio requires full RIO schema - use integration tests instead
+
+[ FAIL 2 | WARN 6 | SKIP 1 | PASS 102 ]

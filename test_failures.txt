@@ -1,0 +1,106 @@
+ERROR: 'test-audit.R:33:5' ------------------------
+Error in `validate_enrollments_input(enrollments)`: Missing required columns in enrollments: INS_Inschrijvingsjaar, DEM_Geslacht_code
+Hint: Has audit_enrollments() been run?
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(suppressWarnings(audit_enrollments(test_data))) at test-audit.R:33:5
+ 2. │ └─base::withCallingHandlers(...)
+ 3. ├─base::suppressWarnings(audit_enrollments(test_data))
+ 4. │ └─base::withCallingHandlers(...)
+ 5. └─prep1cho::audit_enrollments(test_data)
+ 6.   └─prep1cho:::validate_enrollments_input(enrollments) at prep1cho/R/audit.R:24:3
+ 7.     └─rlang::abort(...) at prep1cho/R/validation.R:40:5
+
+ERROR: 'test-combine-with-data.R:73:3' ------------
+Error in `validate_rio_input(rio_data)`: Missing required columns in RIO data: Croho_onderdeel, Naam_opleiding
+Backtrace:
+    ▆
+ 1. └─prep1cho::get_rio(force_download = FALSE) at test-combine-with-data.R:73:3
+ 2.   └─prep1cho:::audit_rio(rio_data) at prep1cho/R/download.R:33:7
+ 3.     └─prep1cho:::validate_rio_input(rio_data) at prep1cho/R/audit.R:85:3
+ 4.       └─rlang::abort(...) at prep1cho/R/validation.R:103:5
+
+ERROR: 'test-combine-with-data.R:169:3' -----------
+Error in `validate_rio_input(rio_data)`: Missing required columns in RIO data: Croho_onderdeel, Naam_opleiding
+Backtrace:
+    ▆
+ 1. └─prep1cho::get_rio(force_download = FALSE) at test-combine-with-data.R:169:3
+ 2.   └─prep1cho:::audit_rio(rio_data) at prep1cho/R/download.R:33:7
+ 3.     └─prep1cho:::validate_rio_input(rio_data) at prep1cho/R/audit.R:85:3
+ 4.       └─rlang::abort(...) at prep1cho/R/validation.R:103:5
+
+ERROR: 'test-combine-with-data.R:214:3' -----------
+Error in `validate_rio_input(rio_data)`: Missing required columns in RIO data: Croho_onderdeel, Naam_opleiding
+Backtrace:
+    ▆
+ 1. └─prep1cho::get_rio(force_download = FALSE) at test-combine-with-data.R:214:3
+ 2.   └─prep1cho:::audit_rio(rio_data) at prep1cho/R/download.R:33:7
+ 3.     └─prep1cho:::validate_rio_input(rio_data) at prep1cho/R/audit.R:85:3
+ 4.       └─rlang::abort(...) at prep1cho/R/validation.R:103:5
+
+FAILURE: 'test-integration.R:15:3' ----------------
+Expected `{ ... }` not to throw any errors.
+Actually got a <rlang_error> with message:
+  Missing required columns in RIO data: Croho_onderdeel, Naam_opleiding
+Backtrace:
+     ▆
+  1. ├─testthat::expect_error(...) at test-integration.R:15:3
+  2. │ └─testthat:::expect_condition_matching_(...)
+  3. │   └─testthat:::quasi_capture(...)
+  4. │     ├─testthat (local) .capture(...)
+  5. │     │ └─base::withCallingHandlers(...)
+  6. │     └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+  7. └─prep1cho::get_rio(force_download = FALSE) at test-integration.R:17:5
+  8.   └─prep1cho:::audit_rio(rio_data) at prep1cho/R/download.R:33:7
+  9.     └─prep1cho:::validate_rio_input(rio_data) at prep1cho/R/audit.R:85:3
+ 10.       └─rlang::abort(...) at prep1cho/R/validation.R:103:5
+
+ERROR: 'test-pipeline.R:14:3' ---------------------
+Error in `validate_rio_input(rio_data)`: Missing required columns in RIO data: Croho_onderdeel, Naam_opleiding
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(...) at test-pipeline.R:14:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(...)
+ 4.   └─prep1cho::get_rio(force_download = download_rio) at prep1cho/R/pipeline.R:62:5
+ 5.     └─prep1cho:::audit_rio(rio_data) at prep1cho/R/download.R:33:7
+ 6.       └─prep1cho:::validate_rio_input(rio_data) at prep1cho/R/audit.R:85:3
+ 7.         └─rlang::abort(...) at prep1cho/R/validation.R:103:5
+
+ERROR: 'test-pipeline.R:38:3' ---------------------
+Error in `validate_rio_input(rio_data)`: Missing required columns in RIO data: Croho_onderdeel, Naam_opleiding
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(...) at test-pipeline.R:38:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(...)
+ 4.   └─prep1cho::get_rio(force_download = download_rio) at prep1cho/R/pipeline.R:62:5
+ 5.     └─prep1cho:::audit_rio(rio_data) at prep1cho/R/download.R:33:7
+ 6.       └─prep1cho:::validate_rio_input(rio_data) at prep1cho/R/audit.R:85:3
+ 7.         └─rlang::abort(...) at prep1cho/R/validation.R:103:5
+
+ERROR: 'test-pipeline.R:75:3' ---------------------
+Error in `validate_rio_input(rio_data)`: Missing required columns in RIO data: Croho_onderdeel, Naam_opleiding
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(run_pipeline(enrollments)) at test-pipeline.R:75:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─prep1cho::run_pipeline(enrollments)
+ 4.   └─prep1cho::get_rio(force_download = download_rio) at prep1cho/R/pipeline.R:62:5
+ 5.     └─prep1cho:::audit_rio(rio_data) at prep1cho/R/download.R:33:7
+ 6.       └─prep1cho:::validate_rio_input(rio_data) at prep1cho/R/audit.R:85:3
+ 7.         └─rlang::abort(...) at prep1cho/R/validation.R:103:5
+
+ERROR: 'test-prepare-with-data.R:51:3' ------------
+Error in `validate_rio_input(rio_data)`: Missing required columns in RIO data: Croho_onderdeel, Naam_opleiding
+Backtrace:
+    ▆
+ 1. └─prep1cho::get_rio(force_download = FALSE) at test-prepare-with-data.R:51:3
+ 2.   └─prep1cho:::audit_rio(rio_data) at prep1cho/R/download.R:33:7
+ 3.     └─prep1cho:::validate_rio_input(rio_data) at prep1cho/R/audit.R:85:3
+ 4.       └─rlang::abort(...) at prep1cho/R/validation.R:103:5
+
+SKIP: 'test-prepare.R:4:3' ------------------------
+Reason: prepare_rio requires full RIO schema - use integration tests instead
+
+[ FAIL 9 | WARN 0 | SKIP 1 | PASS 119 ]

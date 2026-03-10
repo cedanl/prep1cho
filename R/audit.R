@@ -10,10 +10,18 @@
 #' @export
 audit_enrollments <- function(enrollments) {
 
+  # Validate input (basic checks before translation)
+  if (!is.data.frame(enrollments) || nrow(enrollments) == 0) {
+    rlang::abort("enrollments moet een niet-lege data frame zijn")
+  }
+
   doc_path <- system.file(file.path("metadata/assertions/Documentatie_ev.csv"), package = "prep1cho")
   doc_naming <- utils::read.csv2(doc_path, stringsAsFactors = FALSE)
   # Translate column names from 1CHO format to internal format
   enrollments <- translate_colnames_documentation(enrollments, doc_naming)
+
+  # Validate translated data
+  validate_enrollments_input(enrollments)
 
   # Basic validation
   n_rows <- nrow(enrollments)
@@ -61,12 +69,20 @@ audit_enrollments <- function(enrollments) {
 #' @keywords internal
 audit_rio <- function(rio_data) {
 
+  # Validate input
+  if (!is.data.frame(rio_data) || nrow(rio_data) == 0) {
+    rlang::abort("rio_data moet een niet-lege data frame zijn")
+  }
+
   doc_path <- system.file(file.path("metadata/assertions/Documentatie_RIO.csv"), package = "prep1cho")
   doc_naming <- utils::read.csv2(doc_path, stringsAsFactors = FALSE)
 
 
   # Translate column names from new RIO format to old format
   rio_data <- translate_colnames_documentation(rio_data, doc_naming)
+
+  # Validate translated data
+  validate_rio_input(rio_data)
 
   return(rio_data)
 }

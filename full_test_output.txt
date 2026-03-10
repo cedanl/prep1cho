@@ -1,0 +1,11 @@
+FAILURE: 'test-combine-with-data.R:28:3' ----------
+Expected `"OPL_Opleidingsnaam_CROHO" %in% colnames(result)` to be TRUE.
+Differences:
+`actual`:   FALSE
+`expected`: TRUE 
+
+
+SKIP: 'test-prepare.R:4:3' ------------------------
+Reason: prepare_rio requires full RIO schema - use integration tests instead
+
+[ FAIL 1 | WARN 0 | SKIP 1 | PASS 70 ]

@@ -1,0 +1,48 @@
+SKIP: 'test-integration.R:4:3' --------------------
+Reason: Synthetic data not available
+
+SKIP: 'test-integration.R:30:3' -------------------
+Reason: Synthetic data not available
+
+SKIP: 'test-integration.R:48:3' -------------------
+Reason: Synthetic data not available
+
+ERROR: 'test-prepare.R:14:3' ----------------------
+<dplyr:::mutate_error/rlang_error/error/condition>
+Error in `dplyr::mutate(dplyr::filter(rio_prepared, OPL_Instellingscode == institution_brin), OPL_Code_in_jaar = as.integer(OPL_Code_in_jaar), OPL_Nominale_studielast_EC_aantal = as.integer(OPL_Nominale_studielast_EC_aantal), OPL_Nominale_studieduur = as.integer(OPL_Nominale_studielast_EC_aantal/60), OPL_Opleidingsnaam_CROHO = dplyr::case_when(Graad %in% c("BACHELOR", "Bachelor") ~ paste0("B ", OPL_Opleidingsnaam_CROHO), Graad %in% c("MASTER", "Master") ~ paste0("M ", OPL_Opleidingsnaam_CROHO), Graad %in%      c("ASSOCIATE_DEGREE", "Associate Degree") ~ paste0("AD ", OPL_Opleidingsnaam_CROHO), TRUE ~ OPL_Opleidingsnaam_CROHO))`: i In argument: `OPL_Code_in_jaar = as.integer(OPL_Code_in_jaar)`.
+Caused by error:
+! object 'OPL_Code_in_jaar' not found
+Backtrace:
+     ▆
+  1. ├─prep1cho::prepare_rio(...) at test-prepare.R:14:3
+  2. │ ├─dplyr::mutate(...) at prep1cho/R/prepare.R:61:3
+  3. │ └─dplyr:::mutate.data.frame(...)
+  4. │   └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
+  5. │     ├─base::withCallingHandlers(...)
+  6. │     └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
+  7. │       └─mask$eval_all_mutate(quo)
+  8. │         └─dplyr (local) eval()
+  9. └─base::.handleSimpleError(...)
+ 10.   └─dplyr (local) h(simpleError(msg, call))
+ 11.     └─rlang::abort(message, class = error_class, parent = parent, call = error_call)
+
+ERROR: 'test-prepare.R:44:3' ----------------------
+<dplyr:::mutate_error/rlang_error/error/condition>
+Error in `dplyr::mutate(dplyr::filter(rio_prepared, OPL_Instellingscode == institution_brin), OPL_Code_in_jaar = as.integer(OPL_Code_in_jaar), OPL_Nominale_studielast_EC_aantal = as.integer(OPL_Nominale_studielast_EC_aantal), OPL_Nominale_studieduur = as.integer(OPL_Nominale_studielast_EC_aantal/60), OPL_Opleidingsnaam_CROHO = dplyr::case_when(Graad %in% c("BACHELOR", "Bachelor") ~ paste0("B ", OPL_Opleidingsnaam_CROHO), Graad %in% c("MASTER", "Master") ~ paste0("M ", OPL_Opleidingsnaam_CROHO), Graad %in%      c("ASSOCIATE_DEGREE", "Associate Degree") ~ paste0("AD ", OPL_Opleidingsnaam_CROHO), TRUE ~ OPL_Opleidingsnaam_CROHO))`: i In argument: `OPL_Code_in_jaar = as.integer(OPL_Code_in_jaar)`.
+Caused by error:
+! object 'OPL_Code_in_jaar' not found
+Backtrace:
+     ▆
+  1. ├─prep1cho::prepare_rio(...) at test-prepare.R:44:3
+  2. │ ├─dplyr::mutate(...) at prep1cho/R/prepare.R:61:3
+  3. │ └─dplyr:::mutate.data.frame(...)
+  4. │   └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
+  5. │     ├─base::withCallingHandlers(...)
+  6. │     └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
+  7. │       └─mask$eval_all_mutate(quo)
+  8. │         └─dplyr (local) eval()
+  9. └─base::.handleSimpleError(...)
+ 10.   └─dplyr (local) h(simpleError(msg, call))
+ 11.     └─rlang::abort(message, class = error_class, parent = parent, call = error_call)
+
+[ FAIL 2 | WARN 0 | SKIP 3 | PASS 43 ]
