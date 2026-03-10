@@ -106,3 +106,114 @@ maxnum <- function(x) {
 
   return(round_values(max(non_missing)))
 }
+
+
+## ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+## Mapping functions (replacement for vusa package) ----
+## ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#' Translate values using a mapping table
+#'
+#' Maps values from a source column to a new column using a mapping table with
+#' 'from' and 'to' columns. This is a simple wrapper around dplyr::left_join.
+#'
+#' @param Data Data frame to transform
+#' @param current Name of the source column to translate
+#' @param new Name of the new column to create
+#' @param mapping_table_input Data frame with 'from' and 'to' columns
+#' @param KeepOriginal Logical. Keep the original column? Default: TRUE
+#'
+#' @return Data frame with new translated column
+#' @keywords internal
+mapping_translate <- function(Data, current, new, mapping_table_input = NULL, KeepOriginal = TRUE) {
+  # Validate mapping table
+  if (is.null(mapping_table_input)) {
+    rlang::abort("mapping_table_input must be provided")
+  }
+
+  if (!all(c("from", "to") %in% names(mapping_table_input))) {
+    rlang::abort("mapping_table_input must contain columns 'from' and 'to'")
+  }
+
+  # Check if new column already exists
+  if (new %in% colnames(Data)) {
+    rlang::abort(paste0("Column '", new, "' already exists in Data"))
+  }
+
+  # Perform translation using match() to replicate vusa behavior exactly
+  Data[[new]] <- mapping_table_input$to[match(Data[[current]], mapping_table_input$from)]
+
+  # Remove original column if requested
+  if (!KeepOriginal) {
+    Data[[current]] <- NULL
+  }
+
+  return(Data)
+}
+
+
+#' Categorize numeric values using a mapping table
+#'
+#' Creates categories from numeric values using a mapping table with 'lower',
+#' 'upper', and 'category' columns. Uses base R cut() function.
+#'
+#' @param Data Data frame to transform
+#' @param current Name of the numeric source column
+#' @param new Name of the new category column to create
+#' @param mapping_table_input Data frame with 'lower', 'upper', and 'category' columns
+#'
+#' @return Data frame with new category column
+#' @keywords internal
+mapping_category <- function(Data, current, new, mapping_table_input = NULL) {
+  # Validate mapping table
+  if (is.null(mapping_table_input)) {
+    rlang::abort("mapping_table_input must be provided")
+  }
+
+  if (!all(c("lower", "upper", "category") %in% names(mapping_table_input))) {
+    rlang::abort("mapping_table_input must contain columns 'lower', 'upper', and 'category'")
+  }
+
+  # Create boundaries from lower and last upper value
+  boundaries <- c(mapping_table_input$lower, utils::tail(mapping_table_input$upper, n = 1))
+
+  # Create categories using cut (right = FALSE means [lower, upper))
+  Data[[new]] <- as.character(cut(
+    Data[[current]],
+    breaks = boundaries,
+    labels = mapping_table_input$category,
+    right = FALSE
+  ))
+
+  return(Data)
+}
+
+
+#' Translate column names using documentation table
+#'
+#' Renames columns from export format to internal format using a documentation
+#' table with 'Veldnaam' and 'Veldnaam_export' columns.
+#'
+#' @param data Data frame to transform
+#' @param documentatie_df Documentation data frame with 'Veldnaam' and 'Veldnaam_export'
+#' @param drop_na Logical. Drop columns that don't have a mapping? Default: TRUE
+#'
+#' @return Data frame with renamed columns
+#' @keywords internal
+translate_colnames_documentation <- function(data, documentatie_df, drop_na = TRUE) {
+  # Create named vector for renaming: new_name = old_name
+  current_cols <- colnames(data)
+
+  # Match current column names to Veldnaam_export and get Veldnaam
+  new_names <- documentatie_df$Veldnaam[match(current_cols, documentatie_df$Veldnaam_export)]
+
+  # Apply new names
+  colnames(data) <- new_names
+
+  # Drop columns with NA names if requested
+  if (drop_na) {
+    data <- data[, !is.na(colnames(data)), drop = FALSE]
+  }
+
+  return(data)
+}

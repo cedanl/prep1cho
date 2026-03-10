@@ -208,12 +208,14 @@ result <- run_pipeline(
 
 ## 🔗 Afhankelijkheden
 
-Dit package gebruikt packages van de [vusaverse](https://github.com/vusaverse/):
+Dit package gebruikt alleen standaard CRAN packages:
 
-- **vusa** - Data transformatie utilities
-- **vvauditor** - Data auditing
-- **vvconverter** - Waarden mappen en basis aanpassingen
-- **vvmover** - Dynamisch opslaan en laden
+- **tidyverse** - Data manipulatie en transformatie (dplyr, purrr, stringr, etc.)
+- **fst** - Snelle data opslag
+- **data.table** - Efficiënte data verwerking
+- **lubridate** - Datum en tijd functies
+
+Alle mapping functionaliteit is intern geïmplementeerd in `R/utils.R`.
 
 <br>
 

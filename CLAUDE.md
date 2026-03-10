@@ -55,6 +55,16 @@ if (length(na_high) > 0) {
 - **Configuration**: `config.yml` (default = synthetic data, vu = VU-specific)
 
 ## Code Conventions
+- **Simplicity first**: Choose simple, clean, understandable code over clever solutions
+  - Prefer clarity over brevity
+  - Write code that others can understand at a glance
+  - Avoid unnecessary abstractions or complex patterns
+  - If you can solve it in 5 lines clearly, don't use 3 lines cryptically
+- **No fluff**: Keep code lean and to the point
+  - Remove unnecessary comments (code should be self-explanatory)
+  - No verbose variable names or over-documentation
+  - Only add comments when logic is non-obvious
+  - Tests should be minimal and focused
 - **Section headers**: `## ++++...++++` pattern (100+ chars)
 - **Variable naming**: Dutch prefixes (INS_*, OPL_*, DEM_*)
 - **Comments**: English
@@ -62,9 +72,9 @@ if (length(na_high) > 0) {
 - **Error handling**: Use `rlang::abort()` over `stop()`
 
 ## Key Dependencies
-- **VUSAverse**: vusa, vvmover, vvconverter, vvauditor (GitHub packages)
 - **Data I/O**: fst (fast storage), LaF (ASCII files), readr
 - **Pipeline**: tidyverse, config
+- **Utilities**: Custom mapping functions (see R/utils.R)
 
 ## Data Pipeline
 - **Input**: 1CHO raw enrollments + CROHO program data + mapping tables
@@ -77,7 +87,6 @@ if (length(na_high) > 0) {
 - Default config uses synthetic test data
 
 ## Validation
-- Script validation: `vusa::validate_script_proj()`
 - Data assertions: `metadata/assertions/`
 - Audit reports: dataReporter package
 

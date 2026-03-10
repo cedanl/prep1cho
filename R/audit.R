@@ -13,7 +13,7 @@ audit_enrollments <- function(enrollments) {
   doc_path <- system.file(file.path("metadata/assertions/Documentatie_ev.csv"), package = "prep1cho")
   doc_naming <- utils::read.csv2(doc_path, stringsAsFactors = FALSE)
   # Translate column names from 1CHO format to internal format
-  enrollments <- vusa::wrapper_translate_colnames_documentation(enrollments, doc_naming)
+  enrollments <- translate_colnames_documentation(enrollments, doc_naming)
 
   # Basic validation
   n_rows <- nrow(enrollments)
@@ -66,7 +66,7 @@ audit_rio <- function(rio_data) {
 
 
   # Translate column names from new RIO format to old format
-  rio_data <- vusa::wrapper_translate_colnames_documentation(rio_data, doc_naming)
+  rio_data <- translate_colnames_documentation(rio_data, doc_naming)
 
   return(rio_data)
 }
