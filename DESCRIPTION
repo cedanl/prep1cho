@@ -24,20 +24,16 @@ Imports:
     lubridate,
     purrr,
     readr,
+    rlang,
     stringr,
     tibble,
     tidyr,
-    tools,
-    vusa
+    tools
 Suggests:
     LaF,
     dataReporter,
     quarto,
     testthat (>= 3.0.0),
-    vvmover,
-    vvauditor,
     knitr,
     rmarkdown
-Remotes:
-    aslamht/vusa@12-remove-pryr-use-lobstr
 Config/testthat/edition: 3

@@ -89,7 +89,7 @@ prepare_rio <- function(rio,
   }
 
   rio_prepared <- rio_prepared |>
-    vusa::mapping_translate("OPL_Code_in_jaar", "OPL_Code_historisch",
+    mapping_translate("OPL_Code_in_jaar", "OPL_Code_historisch",
                            mapping_table_input = map_croho)
 
   # Create per-year version
@@ -200,33 +200,33 @@ prepare_enrollments_mapping <- function(enrollments) {
 
   # Apply mappings
   enrollments_mapped <- enrollments |>
-    vusa::mapping_translate("DEM_Geslacht_code", "DEM_Geslacht_naam",
+    mapping_translate("DEM_Geslacht_code", "DEM_Geslacht_naam",
                            mapping_table_input = map_geslacht) |>
-    vusa::mapping_translate("INS_Opleidingsvorm_code", "INS_Opleidingsvorm_naam",
+    mapping_translate("INS_Opleidingsvorm_code", "INS_Opleidingsvorm_naam",
                            mapping_table_input = map_opleidingsvorm) |>
-    vusa::mapping_translate("INS_Opleidingsfase_actueel_code", "INS_Opleidingsfase_actueel_naam",
+    mapping_translate("INS_Opleidingsfase_actueel_code", "INS_Opleidingsfase_actueel_naam",
                            mapping_table_input = map_opleidingsfase) |>
-    vusa::mapping_translate("INS_Indicatie_actief_op_peildatum_code", "INS_Indicatie_actief_op_peildatum_omschrijving",
+    mapping_translate("INS_Indicatie_actief_op_peildatum_code", "INS_Indicatie_actief_op_peildatum_omschrijving",
                            mapping_table_input = map_actief) |>
-    vusa::mapping_translate("INS_Examenresultaat_code", "INS_Examenresultaat_omschrijving",
+    mapping_translate("INS_Examenresultaat_code", "INS_Examenresultaat_omschrijving",
                            mapping_table_input = map_examen) |>
-    vusa::mapping_translate("INS_Indicatie_eerste_jaars_instelling", "INS_Indicatie_eerste_jaars_instelling_cat",
+    mapping_translate("INS_Indicatie_eerste_jaars_instelling", "INS_Indicatie_eerste_jaars_instelling_cat",
                            mapping_table_input = map_eerstejaars_cat) |>
-    vusa::mapping_translate("INS_Indicatie_eerste_jaars_instelling", "INS_Indicatie_eerste_jaars_instelling_naam",
+    mapping_translate("INS_Indicatie_eerste_jaars_instelling", "INS_Indicatie_eerste_jaars_instelling_naam",
                            mapping_table_input = map_eerstejaars_naam) |>
-    vusa::mapping_translate("INS_Indicatie_eerste_jaars_opleiding_en_instelling", "INS_Indicatie_eerste_jaars_opleiding_en_instelling_naam",
+    mapping_translate("INS_Indicatie_eerste_jaars_opleiding_en_instelling", "INS_Indicatie_eerste_jaars_opleiding_en_instelling_naam",
                            mapping_table_input = map_eerstejaars_opl) |>
-    vusa::mapping_category("DEM_Leeftijd_peildatum_1_jan", "DEM_Leeftijd_peildatum_1_jan_cat",
+    mapping_category("DEM_Leeftijd_peildatum_1_jan", "DEM_Leeftijd_peildatum_1_jan_cat",
                           mapping_table_input = map_leeftijd) |>
-    vusa::mapping_translate("INS_Soort_inschrijving_1CHO_code", "INS_Soort_inschrijving_1CHO_cat",
+    mapping_translate("INS_Soort_inschrijving_1CHO_code", "INS_Soort_inschrijving_1CHO_cat",
                            mapping_table_input = map_inschrijving) |>
-    vusa::mapping_category("DEM_Leeftijd_peildatum_1_oktober", "DEM_Leeftijd_peildatum_1_oktober_cat",
+    mapping_category("DEM_Leeftijd_peildatum_1_oktober", "DEM_Leeftijd_peildatum_1_oktober_cat",
                           mapping_table_input = map_leeftijd) |>
-    vusa::mapping_category("INS_Verblijfsjaren_wetenschappelijk_onderwijs", "INS_Verblijfsjaren_wetenschappelijk_onderwijs_vanaf_0_cat",
+    mapping_category("INS_Verblijfsjaren_wetenschappelijk_onderwijs", "INS_Verblijfsjaren_wetenschappelijk_onderwijs_vanaf_0_cat",
                           mapping_table_input = map_verblijfsjaren) |>
-    vusa::mapping_category("INS_Verblijfsjaren_hoger_onderwijs", "INS_Verblijfsjaren_hoger_onderwijs_vanaf_0_cat",
+    mapping_category("INS_Verblijfsjaren_hoger_onderwijs", "INS_Verblijfsjaren_hoger_onderwijs_vanaf_0_cat",
                           mapping_table_input = map_verblijfsjaren) |>
-    vusa::mapping_translate("INS_Vooropleiding_voor_HO_code", "INS_Vooropleiding_voor_HO_profiel",
+    mapping_translate("INS_Vooropleiding_voor_HO_code", "INS_Vooropleiding_voor_HO_profiel",
                            mapping_table_input = map_vooropleiding_profiel)
 
   return(enrollments_mapped)
@@ -471,10 +471,10 @@ prepare_enrollments_supplemental <- function(enrollments, year, institution_brin
 
   # Map profiles to abbreviations
   enrollments <- enrollments |>
-    vusa::mapping_translate("INS_Vooropleiding_voor_HO_profiel_standaard",
+    mapping_translate("INS_Vooropleiding_voor_HO_profiel_standaard",
                            "INS_Vooropleiding_voor_HO_profiel_standaard_afk",
                            mapping_table_input = map_profiel_afk) |>
-    vusa::mapping_translate("INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO",
+    mapping_translate("INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO",
                            "INS_Vooropleiding_voor_HO_profiel_standaard_alleen_VWO_afk",
                            mapping_table_input = map_profiel_afk)
 

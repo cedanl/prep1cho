@@ -62,9 +62,9 @@ if (length(na_high) > 0) {
 - **Error handling**: Use `rlang::abort()` over `stop()`
 
 ## Key Dependencies
-- **VUSAverse**: vusa, vvmover, vvconverter, vvauditor (GitHub packages)
 - **Data I/O**: fst (fast storage), LaF (ASCII files), readr
 - **Pipeline**: tidyverse, config
+- **Utilities**: Custom mapping functions (see R/utils.R)
 
 ## Data Pipeline
 - **Input**: 1CHO raw enrollments + CROHO program data + mapping tables
@@ -77,7 +77,6 @@ if (length(na_high) > 0) {
 - Default config uses synthetic test data
 
 ## Validation
-- Script validation: `vusa::validate_script_proj()`
 - Data assertions: `metadata/assertions/`
 - Audit reports: dataReporter package
 
