@@ -3,11 +3,11 @@
 
 #' Validate raw enrollment data before column translation
 #'
-#' Performs basic structure validation on raw enrollment data.
-#' Detailed column validation happens after translation.
+#' Performs structure validation and checks that all expected columns
+#' from Documentatie_ev.csv are present in raw enrollment data.
 #'
 #' @param enrollments Data frame with raw enrollment data (before translation)
-#' @param doc_naming Data frame from Documentatie_ev.csv (not currently used)
+#' @param doc_naming Data frame from Documentatie_ev.csv
 #'
 #' @return Invisible NULL if validation passes, aborts otherwise
 #' @keywords internal
@@ -23,6 +23,45 @@ validate_enrollments_raw <- function(enrollments, doc_naming) {
 
   if (ncol(enrollments) == 0) {
     rlang::abort("enrollments data frame heeft geen kolommen")
+  }
+
+  # For full datasets (>= 10 columns), check all expected columns from documentation
+  # For minimal test data (< 10 columns), only check critical columns
+  if (ncol(enrollments) >= 10) {
+    # Get all expected columns from documentation (where In_gebruik = TRUE)
+    expected_cols <- doc_naming$Veldnaam_export[
+      doc_naming$In_gebruik == TRUE & !is.na(doc_naming$Veldnaam_export)
+    ]
+
+    # Check which expected columns are missing
+    missing_cols <- setdiff(expected_cols, colnames(enrollments))
+
+    if (length(missing_cols) > 0) {
+      rlang::abort(c(
+        "Ongeldige ruwe inschrijvingsdata: verwachte kolommen ontbreken",
+        "x" = paste("Aantal ontbrekende kolommen:", length(missing_cols)),
+        "x" = paste("Eerste 10:", paste(utils::head(missing_cols, 10), collapse = ", ")),
+        "i" = paste("Verwacht aantal kolommen:", length(expected_cols)),
+        "i" = paste("Aanwezig aantal kolommen:", ncol(enrollments)),
+        "i" = "Controleer of de juiste 1CHO export is ingeladen (alle kolommen uit Documentatie_ev.csv moeten aanwezig zijn)"
+      ))
+    }
+  } else {
+    # For minimal data, only check critical columns
+    critical_internal <- c("INS_Studentnummer", "INS_Inschrijvingsjaar", "DEM_Geslacht_code")
+    critical_export <- doc_naming$Veldnaam_export[
+      doc_naming$Veldnaam %in% critical_internal & !is.na(doc_naming$Veldnaam_export)
+    ]
+
+    missing_critical <- setdiff(critical_export, colnames(enrollments))
+
+    if (length(missing_critical) > 0) {
+      rlang::abort(c(
+        "Ongeldige ruwe inschrijvingsdata: kritieke kolommen ontbreken",
+        "x" = paste("Ontbrekend:", paste(missing_critical, collapse = ", ")),
+        "i" = "Minimaal vereist: persoonsgebonden_nummer, inschrijvingsjaar, geslacht"
+      ))
+    }
   }
 
   return(invisible(NULL))

@@ -30,10 +30,10 @@ test_that("audit_enrollments validates required columns", {
   doc_path <- system.file("metadata/assertions/Documentatie_ev.csv", package = "prep1cho")
 
   if (doc_path != "") {
-    # Should error due to missing required columns
+    # Should error due to missing required columns (checked in raw validation)
     expect_error(
       suppressMessages(suppressWarnings(audit_enrollments(test_data))),
-      "Ongeldige inschrijvingsdata"
+      "Ongeldige ruwe inschrijvingsdata|Ongeldige inschrijvingsdata"
     )
   } else {
     skip("Documentation file not available")
