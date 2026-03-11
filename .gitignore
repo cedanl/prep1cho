@@ -58,8 +58,9 @@ metadata/data_dictionary_*/stats_*.csv
 # Claude
 .claude
 
-# Test output files
+# Test output files (but not test_package_*.R scripts)
 test_*.txt
-test_*.R
-*test_output*.txt
+test_output*.txt
+test_results.txt
+test_failures.txt
 build_test.log
