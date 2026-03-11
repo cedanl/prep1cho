@@ -10,13 +10,13 @@
 #' @export
 audit_enrollments <- function(enrollments) {
 
-  # Validate input (basic checks before translation)
-  if (!is.data.frame(enrollments) || nrow(enrollments) == 0) {
-    rlang::abort("enrollments moet een niet-lege data frame zijn")
-  }
-
+  # Load documentation for column translation
   doc_path <- system.file(file.path("metadata/assertions/Documentatie_ev.csv"), package = "prep1cho")
   doc_naming <- utils::read.csv2(doc_path, stringsAsFactors = FALSE)
+
+  # Validate raw input (before translation)
+  validate_enrollments_raw(enrollments, doc_naming)
+
   # Translate column names from 1CHO format to internal format
   enrollments <- translate_colnames_documentation(enrollments, doc_naming)
 

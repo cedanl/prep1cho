@@ -1,6 +1,34 @@
 # Data Validation Functions
 # Validate input data before processing
 
+#' Validate raw enrollment data before column translation
+#'
+#' Performs basic structure validation on raw enrollment data.
+#' Detailed column validation happens after translation.
+#'
+#' @param enrollments Data frame with raw enrollment data (before translation)
+#' @param doc_naming Data frame from Documentatie_ev.csv (not currently used)
+#'
+#' @return Invisible NULL if validation passes, aborts otherwise
+#' @keywords internal
+validate_enrollments_raw <- function(enrollments, doc_naming) {
+
+  if (!is.data.frame(enrollments)) {
+    rlang::abort("enrollments moet een data frame zijn")
+  }
+
+  if (nrow(enrollments) == 0) {
+    rlang::abort("enrollments data frame is leeg (0 rijen)")
+  }
+
+  if (ncol(enrollments) == 0) {
+    rlang::abort("enrollments data frame heeft geen kolommen")
+  }
+
+  return(invisible(NULL))
+}
+
+
 #' Validate enrollment input data
 #'
 #' Checks enrollment data for required columns, data types, and valid ranges.
@@ -41,7 +69,7 @@ validate_enrollments_input <- function(enrollments) {
       "Ongeldige inschrijvingsdata: vereiste kolommen ontbreken",
       "x" = paste("Ontbrekend:", paste(missing_cols, collapse = ", ")),
       "i" = "Is audit_enrollments() uitgevoerd om kolomnamen te vertalen?",
-      "i" = paste("Beschikbare kolommen:", paste(head(colnames(enrollments), 5), collapse = ", "), "...")
+      "i" = paste("Beschikbare kolommen:", paste(utils::head(colnames(enrollments), 5), collapse = ", "), "...")
     ))
   }
 
@@ -69,6 +97,19 @@ validate_enrollments_input <- function(enrollments) {
     # Check not all NA
     if (all(is.na(enrollments$INS_Studentnummer))) {
       rlang::abort("INS_Studentnummer bevat alleen NA - kan niet verder")
+    }
+
+    # Check NA percentage - student number should always be present
+    na_count <- sum(is.na(enrollments$INS_Studentnummer))
+    na_pct <- round((na_count / nrow(enrollments)) * 100, 1)
+
+    if (na_pct > 5) {
+      rlang::abort(c(
+        "Te veel missende studentnummers",
+        "x" = paste0(na_pct, "% van INS_Studentnummer is NA (", na_count, " van ", nrow(enrollments), " rijen)"),
+        "i" = "Studentnummer mag maximaal 5% NA bevatten",
+        "i" = "Controleer de kwaliteit van de brondata"
+      ))
     }
   }
 
@@ -107,7 +148,7 @@ validate_rio_input <- function(rio_data) {
       "Ongeldige RIO data: vereiste kolommen ontbreken",
       "x" = paste("Ontbrekend:", paste(missing_cols, collapse = ", ")),
       "i" = "RIO data moet komen van get_rio() of correct geformatteerd zijn",
-      "i" = paste("Beschikbare kolommen:", paste(head(colnames(rio_data), 5), collapse = ", "), "...")
+      "i" = paste("Beschikbare kolommen:", paste(utils::head(colnames(rio_data), 5), collapse = ", "), "...")
     ))
   }
 
