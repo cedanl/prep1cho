@@ -43,7 +43,8 @@ validate_enrollments_raw <- function(enrollments, doc_naming) {
         "x" = paste("Eerste 10:", paste(utils::head(missing_cols, 10), collapse = ", ")),
         "i" = paste("Verwacht aantal kolommen:", length(expected_cols)),
         "i" = paste("Aanwezig aantal kolommen:", ncol(enrollments)),
-        "i" = "Controleer of de juiste 1CHO export is ingeladen (alle kolommen uit Documentatie_ev.csv moeten aanwezig zijn)"
+        "i" = "Gebruik eerst cedanl/1cijferho om het ASCII-bestand om te zetten naar CSV met decodering",
+        "i" = "Zie: https://github.com/cedanl/1cijferho"
       ))
     }
   } else {
