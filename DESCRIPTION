@@ -18,6 +18,7 @@ RoxygenNote: 7.3.3
 Depends:
     R (>= 4.1.0)
 Imports:
+    cli,
     data.table,
     dplyr (>= 1.1.0),
     fst,
@@ -30,9 +31,13 @@ Imports:
     tidyr,
     tools
 Suggests:
+    bslib,
+    DT,
+    ggplot2,
     LaF,
     dataReporter,
     quarto,
+    shiny,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown
