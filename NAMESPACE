@@ -3,6 +3,7 @@
 export(audit_enrollments)
 export(combine_enrollments_calculations)
 export(combine_enrollments_final)
+export(detect_metadata)
 export(combine_enrollments_rio)
 export(get_rio)
 export(prepare_enrollments_mapping)

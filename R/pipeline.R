@@ -47,32 +47,18 @@ run_pipeline <- function(enrollments,
                         institution_brin = NULL,
                         download_rio = FALSE) {
 
-  ## Auto-detect year from data
-  year_col <- intersect(
-    c("inschrijvingsjaar", "INS_Inschrijvingsjaar"),
-    names(enrollments)
-  )
-  if (is.null(year) && length(year_col) > 0) {
-    year <- max(enrollments[[year_col[1]]], na.rm = TRUE)
-    message("Detected year from data: ", year)
-  } else if (is.null(year)) {
-    year <- as.integer(format(Sys.Date(), "%Y"))
-    message("No year detected, using current year: ", year)
-  }
+  ## Auto-detect year and BRIN from data if not provided
+  if (is.null(year) || is.null(institution_brin)) {
+    meta <- detect_metadata(enrollments)
 
-  ## Auto-detect BRIN from data
-  brin_col <- intersect(
-    c("instellingscode", "INS_Instelling"),
-    names(enrollments)
-  )
-  if (is.null(institution_brin) && length(brin_col) > 0) {
-    brin_freq <- sort(table(enrollments[[brin_col[1]]]),
-                      decreasing = TRUE)
-    institution_brin <- names(brin_freq)[1]
-    message("Detected BRIN from data: ", institution_brin)
-  } else if (is.null(institution_brin)) {
-    institution_brin <- "21XX"
-    message("No BRIN detected, using default: ", institution_brin)
+    if (is.null(year)) {
+      year <- meta$year %||% as.integer(format(Sys.Date(), "%Y"))
+      message("Detected year: ", year)
+    }
+    if (is.null(institution_brin)) {
+      institution_brin <- meta$institution_brin %||% "21XX"
+      message("Detected BRIN: ", institution_brin)
+    }
   }
 
   ## Synthetic rows only needed for demo BRIN

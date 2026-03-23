@@ -415,30 +415,15 @@ server <- function(input, output, session) {
   ## ========================================================
 
   ## Auto-detect BRIN and year from uploaded input data
-  detected_brin <- shiny::reactive({
+  detected_meta <- shiny::reactive({
     shiny::req(input_data())
-    d <- input_data()
-    brin_col <- intersect(
-      c("instellingscode", "INS_Instelling"), names(d)
-    )
-    if (length(brin_col) == 0) return(NULL)
-    freq <- sort(table(d[[brin_col[1]]]), decreasing = TRUE)
-    return(names(freq)[1])
-  })
-
-  detected_year <- shiny::reactive({
-    shiny::req(input_data())
-    d <- input_data()
-    year_col <- intersect(
-      c("inschrijvingsjaar", "INS_Inschrijvingsjaar"), names(d)
-    )
-    if (length(year_col) == 0) return(NULL)
-    return(max(d[[year_col[1]]], na.rm = TRUE))
+    return(prep1cho::detect_metadata(input_data()))
   })
 
   output$pipeline_detected_info <- shiny::renderUI({
-    brin <- detected_brin()
-    yr <- detected_year()
+    meta <- detected_meta()
+    brin <- meta$institution_brin
+    yr <- meta$year
     if (is.null(brin) && is.null(yr)) return(NULL)
 
     shiny::tagList(
@@ -517,8 +502,9 @@ server <- function(input, output, session) {
 
   output$pipeline_download <- shiny::downloadHandler(
     filename = function() {
-      brin <- detected_brin() %||% "prep1cho"
-      yr <- detected_year() %||% format(Sys.Date(), "%Y")
+      meta <- detected_meta()
+      brin <- meta$institution_brin %||% "prep1cho"
+      yr <- meta$year %||% format(Sys.Date(), "%Y")
       paste0("prep1cho_", brin, "_", yr, ".csv")
     },
     content = function(file) {
