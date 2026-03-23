@@ -38,6 +38,46 @@ academic_year <- function(date) {
 }
 
 
+#' Detecteer metadata uit inschrijvingsdata
+#'
+#' Detecteert de BRIN code van de instelling en het academisch jaar uit
+#' een inschrijvings data frame. Werkt met zowel ruwe 1CHO kolomnamen
+#' (lowercase) als vertaalde kolomnamen (INS_ prefix).
+#'
+#' @param enrollments Data frame met inschrijvingsgegevens
+#'
+#' @return Lijst met:
+#'   \item{year}{Maximaal inschrijvingsjaar, of NULL als niet gevonden}
+#'   \item{institution_brin}{Meest voorkomende BRIN code, of NULL als niet gevonden}
+#'
+#' @export
+detect_metadata <- function(enrollments) {
+  year_col <- intersect(
+    c("inschrijvingsjaar", "INS_Inschrijvingsjaar"),
+    names(enrollments)
+  )
+  brin_col <- intersect(
+    c("instellingscode", "INS_Instelling"),
+    names(enrollments)
+  )
+
+  year <- if (length(year_col) > 0) {
+    max(enrollments[[year_col[1]]], na.rm = TRUE)
+  } else {
+    NULL
+  }
+
+  brin <- if (length(brin_col) > 0) {
+    freq <- sort(table(enrollments[[brin_col[1]]]), decreasing = TRUE)
+    names(freq)[1]
+  } else {
+    NULL
+  }
+
+  return(list(year = year, institution_brin = brin))
+}
+
+
 #' Ruim objecten op uit environment
 #' @keywords internal
 clear_script_objects <- function(keep = NULL) {

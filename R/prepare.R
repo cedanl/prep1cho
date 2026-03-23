@@ -164,17 +164,24 @@ prepare_enrollments_mapping <- function(enrollments) {
   }
 
   # Convert date columns first (needed for later calculations)
+  # Source data may have dates as YYYYMMDD integers, dd/mm/yyyy, or dd-mm-yyyy
+  parse_date_flexible <- function(x) {
+    if (is.numeric(x)) {
+      return(as.Date(as.character(x), format = "%Y%m%d"))
+    }
+    as.Date(x, tryFormats = c("%d/%m/%Y", "%d-%m-%Y", "%Y%m%d", "%Y-%m-%d"))
+  }
+
   enrollments <- enrollments |>
     dplyr::mutate(
-      INS_Datum_inschrijving = as.Date(
-        INS_Datum_inschrijving,
-        format = "%d/%m/%Y",
-        tryFormats = c("%d/%m/%Y", "%d-%m-%Y")
+      INS_Datum_inschrijving = parse_date_flexible(
+        INS_Datum_inschrijving
       ),
-      INS_Datum_uitschrijving = as.Date(
-        INS_Datum_uitschrijving,
-        format = "%d/%m/%Y",
-        tryFormats = c("%d/%m/%Y", "%d-%m-%Y")
+      INS_Datum_uitschrijving = parse_date_flexible(
+        INS_Datum_uitschrijving
+      ),
+      INS_Datum_tekening_diploma = parse_date_flexible(
+        INS_Datum_tekening_diploma
       )
     )
 
