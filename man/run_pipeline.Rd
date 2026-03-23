@@ -7,9 +7,8 @@
 run_pipeline(
   enrollments,
   rio_data = NULL,
-  year = 2024,
-  institution_brin = "21XX",
-  create_synthetic = TRUE,
+  year = NULL,
+  institution_brin = NULL,
   download_rio = FALSE
 )
 }
@@ -19,11 +18,11 @@ run_pipeline(
 \item{rio_data}{Optioneel: Data frame met RIO referentiedata. Als NULL, wordt
 RIO data automatisch gedownload.}
 
-\item{year}{Academisch jaar voor maximale datum. Standaard: 2024}
+\item{year}{Academisch jaar. Als NULL, wordt het maximale inschrijvingsjaar
+uit de data gedetecteerd.}
 
-\item{institution_brin}{BRIN code van de instelling. Standaard: "21XX"}
-
-\item{create_synthetic}{Logisch. Maak synthetische test rows? Standaard: TRUE}
+\item{institution_brin}{BRIN code van de instelling. Als NULL, wordt de
+meest voorkomende instellingscode uit de data gedetecteerd.}
 
 \item{download_rio}{Logisch. Download fresh RIO data? Standaard: FALSE}
 }
@@ -40,15 +39,14 @@ mapping tables toepassen, en verrijking met RIO referentiedata.
   # Laad 1CHO inschrijvingsgegevens
   enrollments <- read.csv2("EV299XX24_DEMO_decoded.csv")
 
-  # Voer pipeline uit met standaard instellingen
+  # Voer pipeline uit - year en BRIN worden automatisch gedetecteerd
   data <- run_pipeline(enrollments)
 
-  # Voor specifieke instelling en jaar
+  # Of specificeer handmatig
   data <- run_pipeline(
     enrollments,
     year = 2024,
-    institution_brin = "21PL",
-    create_synthetic = FALSE
+    institution_brin = "21PL"
   )
 
   # Bekijk resultaat
