@@ -15,7 +15,6 @@ test_that("run_pipeline works with synthetic data", {
     enrollments,
     year = 2024,
     institution_brin = "21XX",
-    create_synthetic = TRUE,
     download_rio = FALSE
   ))
 
@@ -40,7 +39,6 @@ test_that("run_pipeline can download RIO data", {
     rio_data = NULL,  # Force it to get RIO data itself
     year = 2024,
     institution_brin = "21XX",
-    create_synthetic = TRUE,
     download_rio = FALSE
   ))
 

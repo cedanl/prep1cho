@@ -25,6 +25,7 @@ test_that("prepare_enrollments_mapping requires specific columns", {
     DEM_Geslacht_code = c("M", "V", "M"),
     INS_Datum_inschrijving = c("01/01/2024", "01/01/2024", "01/01/2024"),
     INS_Datum_uitschrijving = c(NA, NA, NA),
+    INS_Datum_tekening_diploma = c(NA, NA, NA),
     stringsAsFactors = FALSE
   )
 

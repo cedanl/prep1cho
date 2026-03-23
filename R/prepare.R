@@ -169,6 +169,7 @@ prepare_enrollments_mapping <- function(enrollments) {
     if (is.numeric(x)) {
       return(as.Date(as.character(x), format = "%Y%m%d"))
     }
+    x[!nzchar(trimws(x))] <- NA
     as.Date(x, tryFormats = c("%d/%m/%Y", "%d-%m-%Y", "%Y%m%d", "%Y-%m-%d"))
   }
 
