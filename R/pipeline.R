@@ -10,9 +10,10 @@
 #' @param enrollments Data frame met 1CHO inschrijvingsgegevens (EV-bestand)
 #' @param rio_data Optioneel: Data frame met RIO referentiedata. Als NULL, wordt
 #'   RIO data automatisch gedownload.
-#' @param year Academisch jaar voor maximale datum. Standaard: 2024
-#' @param institution_brin BRIN code van de instelling. Standaard: "21XX"
-#' @param create_synthetic Logisch. Maak synthetische test rows? Standaard: TRUE
+#' @param year Academisch jaar. Als NULL, wordt het maximale inschrijvingsjaar
+#'   uit de data gedetecteerd.
+#' @param institution_brin BRIN code van de instelling. Als NULL, wordt de
+#'   meest voorkomende instellingscode uit de data gedetecteerd.
 #' @param download_rio Logisch. Download fresh RIO data? Standaard: FALSE
 #'
 #' @return Data frame met verrijkte inschrijvingsgegevens
@@ -24,15 +25,14 @@
 #'   # Laad 1CHO inschrijvingsgegevens
 #'   enrollments <- read.csv2("EV299XX24_DEMO_decoded.csv")
 #'
-#'   # Voer pipeline uit met standaard instellingen
+#'   # Voer pipeline uit - year en BRIN worden automatisch gedetecteerd
 #'   data <- run_pipeline(enrollments)
 #'
-#'   # Voor specifieke instelling en jaar
+#'   # Of specificeer handmatig
 #'   data <- run_pipeline(
 #'     enrollments,
 #'     year = 2024,
-#'     institution_brin = "21PL",
-#'     create_synthetic = FALSE
+#'     institution_brin = "21PL"
 #'   )
 #'
 #'   # Bekijk resultaat
@@ -43,10 +43,40 @@
 #' }
 run_pipeline <- function(enrollments,
                         rio_data = NULL,
-                        year = 2024,
-                        institution_brin = "21XX",
-                        create_synthetic = TRUE,
+                        year = NULL,
+                        institution_brin = NULL,
                         download_rio = FALSE) {
+
+  ## Auto-detect year from data
+  year_col <- intersect(
+    c("inschrijvingsjaar", "INS_Inschrijvingsjaar"),
+    names(enrollments)
+  )
+  if (is.null(year) && length(year_col) > 0) {
+    year <- max(enrollments[[year_col[1]]], na.rm = TRUE)
+    message("Detected year from data: ", year)
+  } else if (is.null(year)) {
+    year <- as.integer(format(Sys.Date(), "%Y"))
+    message("No year detected, using current year: ", year)
+  }
+
+  ## Auto-detect BRIN from data
+  brin_col <- intersect(
+    c("instellingscode", "INS_Instelling"),
+    names(enrollments)
+  )
+  if (is.null(institution_brin) && length(brin_col) > 0) {
+    brin_freq <- sort(table(enrollments[[brin_col[1]]]),
+                      decreasing = TRUE)
+    institution_brin <- names(brin_freq)[1]
+    message("Detected BRIN from data: ", institution_brin)
+  } else if (is.null(institution_brin)) {
+    institution_brin <- "21XX"
+    message("No BRIN detected, using default: ", institution_brin)
+  }
+
+  ## Synthetic rows only needed for demo BRIN
+  create_synthetic <- institution_brin == "21XX"
 
   message("\n========================================")
   message("PREP1CHO Pipeline")
